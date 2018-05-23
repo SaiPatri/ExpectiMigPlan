@@ -73,10 +73,11 @@ class ExpectiNPV:
                                      6: [5, 6, 7], 7: [7, 5], 8: [8, 4], 9: [11], 10: [11], 11: [11],
                                      12: [11,12,13], 13: [11,13]}
 
+
         self.action_list = []
         self.pen_curve = pen_curve
         self.path_list = []
-        self.force_depth = 7
+        self.force_depth = 25
         # self.disc_rate = 0.1
 
     def build_residential_tree(self, start_node_tech, prob):
@@ -109,12 +110,21 @@ def run_expecti_residential(inputfile, startyear, maxyear, penetration_curve):
         tech_changes_at_intervals.append(next_tech)
         action_list = expectiTreeLikely.action_list
         t2 = time.time()
+        action_list_new = []
+        if len(action_list) is not maxyear - startyear:
+            action_list_new = [expectiTreeLikely.techindex[tech] for tech in action_list]
+            last_tech = expectiTreeLikely.techindex[action_list[-1]]
+            for year in range(startyear + len(action_list), maxyear):
+                action_list_new.append(last_tech)
 
         print ("Time took is: "+str((t2-t1)/60.0)+" minutes")
         print('Maximum reward generated is',time_interval_cf)
         print('The complete path is',intermediate_path_list)
         print ('Technology after year gaps', tech_changes_at_intervals)
-        print ('Total tree is', action_list)
+        if not action_list_new:
+            print ('Total tree is', action_list)
+        else:
+            print('Total tree is',action_list_new)
 
 
 if __name__ == "__main__":
