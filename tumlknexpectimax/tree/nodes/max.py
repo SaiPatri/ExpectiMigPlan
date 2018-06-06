@@ -52,7 +52,7 @@ class MaxNode:
             temp_dict = {}
             max_child_tech = node_technology
             max_child_list = []
-            if depth >= self.force_depth:
+            if depth >= self.force_depth-1:
                 current_child_list = self.node_mig_dict_forced[node_technology]
             else:
                 current_child_list = self.node_mig_dict_unforced[node_technology]
@@ -65,7 +65,7 @@ class MaxNode:
                     else:
                         capex_rev = 0
                 else:
-                    if depth is 10:
+                    if depth == 10:
 
                         capex_rev = -self.capex_values_dict['Electronic Cost'][self.techindex[node_technology]] -self.mig_matrix[self.techindex[child_technology]][self.techindex[node_technology]]
                     else:

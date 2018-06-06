@@ -13,7 +13,9 @@ Copyright: Technische Universitaet Muenchen
 
 from tumlknexpectimax.input_parser import xls_parser
 from tumlknexpectimax.tree.build_tree import TreeBuilder
-
+from tumlknexpectimax.output_parser.create_output_json import OutputJSON
+from tumlknexpectimax.output_parser.create_output_graphs import OutputGraphs
+import copy
 import time
 import sys
 
@@ -27,12 +29,12 @@ class ExpectiNPV:
     # Class variable
     action_dict = {}
 
-    def __init__(self, filename,START_YEAR, MAX_YEAR, pen_curve):
+    def __init__(self, filename,START_YEAR, MAX_YEAR, pen_curve, depth_100, only_ftth=False):
         self.xparse = xls_parser.Parser()
         parsed_adsl_0,parsed_fttc_1,parsed_fttb_2, \
         parsed_fttb_3, parsed_ftth_4, parsed_ftth_5, parsed_fttc_6_force, parsed_fttb_7_force, parsed_fttb_8_force, \
         parsed_fttc_hybridpon_9, parsed_fttb_hybridpon_10, parsed_ftth_hybridpon_11, parsed_fttc_hybridpon_12_force, \
-        parsed_fttb_hybridpon_13_force, capex_values, mig_matrix = self.xparse.xls_parse_residential(filename) # 'input_data_residential.xlsx'
+        parsed_fttb_hybridpon_13_force, capex_values, mig_matrix = self.xparse.xls_parse_business(filename) # 'input_data_residential.xlsx'
 
         self.pv_dict = {0: parsed_adsl_0.to_dict(),1: parsed_fttc_1.to_dict(), 2:parsed_fttb_2.to_dict(),
                         3:parsed_fttb_3.to_dict(), 4: parsed_ftth_4.to_dict(), 5:parsed_ftth_5.to_dict(),
@@ -45,39 +47,38 @@ class ExpectiNPV:
 
         self.mig_matrix = mig_matrix.to_dict()
 
-        self.techindex = {0:u'ADSL',1:u'FTTC_2_STAGE_GPON',2:u'FTTB_2_STAGE_XGPON', 3:u'FTTB_1_STAGE_UDWDM_GF',
-                           4:u'FTTH_2_STAGE_UDWDM', 5:u'FTTH_2_STAGE_XGPON', 6:u'FTTC_2_STAGE_GPON_FORCE',
-                          7:u'FTTB_2_STAGE_XGPON_FORCE', 8:u'FTTB_1_STAGE_UDWDM_FORCE', 9:u'FTTC_Hybridpon',
-                          10:u'FTTB_Hybridpon', 11:u'FTTH_Hybridpon', 12:u'FTTC_Hybridpon_FORCE',
-                          13:u'FTTB_Hybridpon_FORCE'}
-
+        self.techindex = {0:u'ADSL',1:u'FTTC_GPON_25',2:u'FTTB_XGPON_50', 3:u'FTTB_UDWDM_50',
+                           4:u'FTTH_UDWDM_100', 5:u'FTTH_XGPON_100', 6:u'FTTC_GPON_100',
+                          7:u'FTTB_XGPON_100', 8:u'FTTB_UDWDM_100', 9:u'FTTC_Hybridpon_25',
+                          10:u'FTTB_Hybridpon_50', 11:u'FTTH_Hybridpon_100', 12:u'FTTC_Hybridpon_100',
+                          13:u'FTTB_Hybridpon_100'}
+        self.data_rate = {0: 20, 1: 25, 2: 50, 3: 50, 4: 100, 5: 100, 6: 100, 7: 100, 8: 100, 9: 25, 10: 50, 11: 100, 12: 100, 13: 100}
+        # {20: [0], 25: [1, 9], 50: [2, 3], 100: [4, 5, 6, 7, 8, 10, 11, 12, 13]}
         self.START_YEAR = START_YEAR
         self.MAX_YEAR = MAX_YEAR
         # self.node_mig_dict = {0: [0,1,2,3,4,5,6,7,8], 1: [1, 2, 5, 6, 7], 2: [2, 5, 7], 3: [3, 4, 8], 4: [4],5: [5], 6: [5, 6, 7], 7: [4, 5, 7], 8: [8]}
-        """
-        self.node_mig_dict_unforced = {0: [0,1,2,3,4,5,6,7,8,9,10,11,12,13], 1: [1, 2, 5, 6, 7], 2: [2, 5, 7],
+        if not only_ftth:
+            self.node_mig_dict_unforced = {0: [0,1,2,3,4,5,6,7,8,9,10,11,12,13], 1: [1, 2, 5, 6, 7], 2: [2, 5, 7],
                                        3: [3, 4, 8], 4: [4],5: [5], 6: [5, 6, 7], 7: [7, 5], 8: [8, 4],
                                        9: [9, 10, 11, 12, 13], 10: [10, 11, 13], 11: [11], 12: [11, 12, 13],
                                        13: [11, 13]}
                                        
-        self.node_mig_dict_forced = {0: [4, 5, 6, 7, 8, 11, 12, 13], 1: [5, 6], 2: [5, 7], 3: [4, 8], 4: [4], 5: [5],
+            self.node_mig_dict_forced = {0: [4, 5, 6, 7, 8, 11, 12, 13], 1: [5, 6], 2: [5, 7], 3: [4, 8], 4: [4], 5: [5],
                                      6: [5, 6, 7], 7: [7, 5], 8: [8, 4], 9: [11, 12, 13], 10: [11, 13], 11: [11],
                                      12: [11,12,13], 13: [11,13]}
                         
-        """
-        self.node_mig_dict_unforced = {0: [0,1,2,3,4,5,9,10,11], 1: [1, 2, 5], 2: [2, 5],
+        else:
+            self.node_mig_dict_unforced = {0: [0,1,2,3,4,5,9,10,11], 1: [1, 2, 5], 2: [2, 5],
                                        3: [3, 4], 4: [4],5: [5], 6: [5, 6, 7], 7: [7, 5], 8: [8, 4],
                                        9: [9, 10, 11], 10: [10, 11], 11: [11], 12: [11, 12, 13],
                                        13: [11, 13]}
-        self.node_mig_dict_forced = {0: [4, 5, 11], 1: [5], 2: [5], 3: [4], 4: [4], 5: [5],
+            self.node_mig_dict_forced = {0: [4, 5, 11], 1: [5], 2: [5], 3: [4], 4: [4], 5: [5],
                                      6: [5, 6, 7], 7: [7, 5], 8: [8, 4], 9: [11], 10: [11], 11: [11],
                                      12: [11,12,13], 13: [11,13]}
-
-
         self.action_list = []
         self.pen_curve = pen_curve
         self.path_list = []
-        self.force_depth = 25
+        self.force_depth = depth_100
         # self.disc_rate = 0.1
 
     def build_residential_tree(self, start_node_tech, prob):
@@ -93,38 +94,56 @@ class ExpectiNPV:
         return time_interval_cf,next_tech,intermediate_path_dict
 
 
-def run_expecti_residential(inputfile, startyear, maxyear, penetration_curve):
+def run_expecti_residential(inputfile, startyear, maxyear, penetration_curve,depth_all_100,only_ftth):
 
         # action_list = []
         start = startyear
         end = maxyear
         start_node_tech = 0
-        intermediate_path_list = []
+        # intermediate_path_list = []
         tech_changes_at_intervals = []
         t1 = time.time()
         filename = inputfile
         # TODO: BUILD TREE COMES HERE
-        expectiTreeLikely = ExpectiNPV(filename,start, end,penetration_curve)
-        time_interval_cf,next_tech,intermediate_path_dict = expectiTreeLikely.build_residential_tree(start_node_tech,0.1)
-        intermediate_path_list.append(intermediate_path_dict)
+        expectiTreeLikely = ExpectiNPV(filename,start, end,penetration_curve,depth_all_100,only_ftth)
+        time_interval_cf,next_tech,intermediate_path_list = expectiTreeLikely.build_residential_tree(start_node_tech,0.1)
         tech_changes_at_intervals.append(next_tech)
         action_list = expectiTreeLikely.action_list
         t2 = time.time()
         action_list_new = []
+        final_migration_year = startyear
         if len(action_list) is not maxyear - startyear:
             action_list_new = [expectiTreeLikely.techindex[tech] for tech in action_list]
             last_tech = expectiTreeLikely.techindex[action_list[-1]]
             for year in range(startyear + len(action_list), maxyear):
                 action_list_new.append(last_tech)
 
-        print ("Time took is: "+str((t2-t1)/60.0)+" minutes")
-        print('Maximum reward generated is',time_interval_cf)
-        print('The complete path is',intermediate_path_list)
-        print ('Technology after year gaps', tech_changes_at_intervals)
+        time_taken = t2-t1
+        expected_npv = time_interval_cf
+        # print('The complete path is',intermediate_path_list)
+        max_tech = 0
+        for tech_num in intermediate_path_list:
+            if tech_num >= max_tech:
+                max_tech = tech_num
+        # Now we have max tech
+        current_tech = 0
+        mig_years_dict = {}
+        for year_index in range(0,len(intermediate_path_list)):
+            if intermediate_path_list[year_index] != current_tech:
+                mig_years_dict[startyear+year_index] = expectiTreeLikely.techindex[intermediate_path_list[year_index]]
+
+            if intermediate_path_list[year_index] == max_tech:
+                # mig_years.append(startyear+year_index)
+                final_migration_year = startyear+year_index
+
+            current_tech = intermediate_path_list[year_index]
+        max_data_rate = expectiTreeLikely.data_rate[max_tech]
+        # "NPV_expected","mig_path","year_to_final_tech","mig_years","final_data_rate", "total_time"
+
         if not action_list_new:
-            print ('Total tree is', action_list)
+            return expected_npv, action_list, final_migration_year, mig_years_dict, max_data_rate, time_taken
         else:
-            print('Total tree is',action_list_new)
+            return expected_npv, action_list_new, final_migration_year, mig_years_dict, max_data_rate, time_taken
 
 
 if __name__ == "__main__":
@@ -139,10 +158,37 @@ if __name__ == "__main__":
     print('Optical Network Migration Planning Tool\n')
     print('Copyright: Chair of Communication Networks, Technical University of Munich, 2018\n')
     print ('For different penetration curves, returns the expected NPV and path taken to reach final technology')
+    print('Business Case: Residential Customers')
     input_file = sys.argv[1]
     start_year = sys.argv[2]
     end_year = sys.argv[3]
+    result_filename = 'results_expectimax_residential'
+    output_parser = OutputJSON(result_filename)
+    # final_migration_dict = {}
+    print('----------------------------------------------------------------------------------------------------')
+    for ftth_flag in [True,False]:
+        print('----------------------------------------------------------------------------------------------------')
+        for depth in [25,7]:
+            print('-----------------------------------------------------------------------------------------------')
+            print('Year at which all users to be moved to FTTH: {0}'.format(depth))
+            mig_info_pen_dict = {}
+            for pen_curve in ['Cons PV','Likely PV', 'Aggr PV']:
 
-    for pen_curve in ['Cons PV','Likely PV', 'Aggr PV']:
-        run_expecti_residential(input_file,int(start_year),int(end_year),pen_curve)
+                expected_npv, action_list_new, final_migration_year, mig_years, max_data_rate, time_taken=\
+                    run_expecti_residential(input_file,int(start_year),int(end_year),pen_curve,depth,ftth_flag)
+                mig_info_pen_dict[pen_curve] = output_parser.build_mig_dict(pen_curve,expected_npv,action_list_new,final_migration_year,mig_years,max_data_rate,time_taken)
+
+            output_parser.is_ftth_dict[(ftth_flag,depth)] = copy.deepcopy(mig_info_pen_dict)
+            mig_info_pen_dict = {}
+
+
+    # TODO: JSONIFY THE OUTPUT and generate graphs
+
+    # Dump to json file
+    output_parser.dump_to_json(output_parser.is_ftth_dict)
+    grapher = OutputGraphs(r"C:\Users\ga47kiw\PycharmProjects\tumlknexpectimax")
+    grapher.create_npv_graph(0)
+    grapher.create_migration_steps(0)
+
+
 

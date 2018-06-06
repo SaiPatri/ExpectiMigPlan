@@ -47,11 +47,11 @@ class TreeBuilder:
         max_cf_nochurn = expectidetails_nochurn[0]
         child_list_cfnochurn = expectidetails_nochurn[1:]
         intermediate_cf = churn_prob*max_cf_churn + (1-churn_prob)*max_cf_nochurn
-        print('------------Penetration Curve: ',pen_curve, '-----------------')
-        print('On the topmost node, expected cashflow with churn is', max_cf_churn)
-        print('On the topmost node, expected cashflow without churn is', max_cf_nochurn)
-        print('Maxchurn nodes children are ', child_list_cfchurn)
-        print( 'Maxnochurn nodes children are', child_list_cfnochurn)
+        # print('------------Penetration Curve: ',pen_curve, '-----------------')
+        # print('On the topmost node, expected cashflow with churn is', max_cf_churn)
+        # print('On the topmost node, expected cashflow without churn is', max_cf_nochurn)
+        # print('Maxchurn nodes children are ', child_list_cfchurn)
+        # print( 'Maxnochurn nodes children are', child_list_cfnochurn)
 
         # TODO: TEST IF THIS LEN WORKS
         treechurn = copy.deepcopy(child_list_cfchurn)
