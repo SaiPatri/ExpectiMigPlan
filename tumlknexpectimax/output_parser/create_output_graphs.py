@@ -114,7 +114,7 @@ class OutputGraphs:
         x_col = 0
         y_col = 0
         mig_years = {}
-        x = np.arange(2018,2033,1)
+        x = np.arange(2018,2030,1)
         x0 = x.copy()-0.2
         x2 = x.copy()+0.2
         f, axarr = plt.subplots(2, 2)
@@ -144,6 +144,7 @@ class OutputGraphs:
                         mig_years['Aggressive'] = json.dumps(migration_data[index]['migration_info'][pen_curve]['mig_years'])
                 # all three filled
 
+                """
                 while True:
                     if (len(mig_tree_cons) == 15) and (len(mig_tree_likely) == 15) and (len(mig_tree_aggr) == 15):
                         break
@@ -153,6 +154,7 @@ class OutputGraphs:
                         mig_tree_likely.pop(-1)
                     elif len(mig_tree_aggr) > 15:
                         mig_tree_aggr.pop(-1)
+                """
                 # mig_tree_data_rate = [val for val in data_rate[mig_tree.pop(0)]]
                 axarr[x_col,y_col].step(x0,mig_tree_cons, color='red',label = 'Conservative Penetration')
                 axarr[x_col,y_col].step(x,[val+2 for val in mig_tree_likely], color='blue',label = 'Likely Penetration')
@@ -172,7 +174,7 @@ class OutputGraphs:
                 axarr[x_col,y_col].set_ylabel('Average Datarate in Mbps')
                 axarr[x_col,y_col].grid(True,which='major',axis='x',color='blue',linestyle='--')
                 text_to_add = ''
-                for key,val in mig_years.iteritems():
+                for key,val in mig_years.items():
                     text_to_add += key+':  '+val+'\n'
                 axarr[x_col,y_col].text(0.5,0.04,text_to_add,va='bottom', ha='center', fontsize=9,weight='semibold',transform=axarr[x_col,y_col].transAxes)
                 axarr[x_col,y_col].legend(loc='center right')
@@ -193,7 +195,7 @@ class OutputGraphs:
 
 if __name__ == "__main__":
 
-    grapher = OutputGraphs(r"C:\Users\ga47kiw\PycharmProjects\tumlknexpectimax")
+    grapher = OutputGraphs(os.path.join(os.getcwd(),'..\\..'))
     scenario = sys.argv[1]
     if scenario == 'residential':
         scen_int = 0

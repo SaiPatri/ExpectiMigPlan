@@ -6,8 +6,8 @@ class ChanceNode:
     """
 
     """
-    def __init__(self, node_mig_dict_forced, node_mig_dict_unforced,capex_values,tech_index, mig_matrix, pv_dict,
-                 pen_curve, path_list, forcing_depth, start_year, max_year):
+    def __init__(self, node_mig_dict_forced, node_mig_dict_unforced,capex_values,tech_index, mig_matrix,
+                 pen_curve, path_list, forcing_depth, start_year, max_year,pv):
         """
 
         :param node_mig_dict_forced:
@@ -30,12 +30,12 @@ class ChanceNode:
         self.capex_values_dict = capex_values
         self.techindex = tech_index
         self.mig_matrix = mig_matrix
-        self.pv_dict = pv_dict
         self.pen_curve = pen_curve
         self.path_list = path_list
         self.force_depth = int(forcing_depth)
+        self.pv = pv
         self.current_year_maxer = max2.MaxNode(self.node_mig_dict_forced, self.node_mig_dict_unforced,self.capex_values_dict
-                                          , self.techindex, self.mig_matrix, self.pv_dict, self.pen_curve, self.path_list,self.force_depth,self.START_YEAR, self.MAX_YEAR)
+                                          , self.techindex, self.mig_matrix, self.pen_curve, self.path_list,self.force_depth,self.START_YEAR, self.MAX_YEAR,self.pv)
         pass
 
     def depthCount(self,lst):

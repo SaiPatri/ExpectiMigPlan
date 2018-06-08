@@ -18,6 +18,7 @@ from tumlknexpectimax.input_parser import xls_parser
 from tumlknexpectimax.tree.build_tree import TreeBuilder
 from tumlknexpectimax.output_parser.create_output_json import OutputJSON
 from tumlknexpectimax.output_parser.create_output_graphs import OutputGraphs
+from tumlknexpectimax.model_present_value.present_value import GeneratePresentValue
 import copy
 import time
 import sys
@@ -34,20 +35,10 @@ class ExpectiNPVBusiness:
 
     def __init__(self, filename,START_YEAR, MAX_YEAR, pen_curve,depth_100,only_ftth):
         self.xparse = xls_parser.Parser()
-        parsed_adsl_0,parsed_fttc_1,parsed_fttb_2, \
-        parsed_fttb_3, parsed_ftth_4, parsed_ftth_5, parsed_fttc_6_force, parsed_fttb_7_force, parsed_fttb_8_force, \
-        parsed_fttc_hybridpon_9, parsed_fttb_hybridpon_10, parsed_ftth_hybridpon_11, parsed_fttc_hybridpon_12_force, \
-        parsed_fttb_hybridpon_13_force, capex_values, mig_matrix = self.xparse.xls_parse_business(filename) # 'input_data_residential.xlsx'
-
-        self.pv_dict = {0: parsed_adsl_0.to_dict(),1: parsed_fttc_1.to_dict(), 2:parsed_fttb_2.to_dict(),
-                        3:parsed_fttb_3.to_dict(), 4: parsed_ftth_4.to_dict(), 5:parsed_ftth_5.to_dict(),
-                        6: parsed_fttc_6_force.to_dict(), 7:parsed_fttb_7_force.to_dict(),
-                        8: parsed_fttb_8_force.to_dict(), 9: parsed_fttc_hybridpon_9.to_dict(),
-                        10: parsed_fttb_hybridpon_10.to_dict(), 11: parsed_ftth_hybridpon_11.to_dict(),
-                        12: parsed_fttc_hybridpon_12_force.to_dict(), 13: parsed_fttb_hybridpon_13_force.to_dict()}
+        capex_values, opex_values,mig_matrix = self.xparse.xls_parse_business(filename) # 'input_data_residential.xlsx'
 
         self.capex_values_dict = capex_values.to_dict()
-
+        self.opex_values_dict = opex_values['Approx OPEX per year'].to_dict()
         self.mig_matrix = mig_matrix.to_dict()
 
         self.techindex = {0:u'ADSL',1:u'FTTC_GPON_25',2:u'FTTB_XGPON_50', 3:u'FTTB_UDWDM_50',
@@ -85,11 +76,13 @@ class ExpectiNPVBusiness:
         self.pen_curve = pen_curve
         self.path_list = []
         self.force_depth = depth_100
+        self.disc_rate = 0.1
+        self.present_value_gen = GeneratePresentValue('residential', self.pen_curve, self.disc_rate, self.opex_values)
 
     def build_business_tree(self, start_node_tech, prob):
 
         treeBuild = TreeBuilder(self.node_mig_dict_forced,self.node_mig_dict_unforced,self.capex_values_dict,
-                                     self.techindex,self.mig_matrix,self.pv_dict,self.pen_curve,self.path_list,
+                                     self.techindex,self.mig_matrix,self.pen_curve,self.path_list,
                                      self.force_depth,self.START_YEAR,self.MAX_YEAR)
 
         time_interval_cf,next_tech,intermediate_path_dict = treeBuild.build_mini_tree(self.action_list,

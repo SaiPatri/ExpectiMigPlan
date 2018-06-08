@@ -12,13 +12,14 @@ Copyright: Technische Universitaet Muenchen
 """
 
 from tumlknexpectimax.input_parser import xls_parser
+from tumlknexpectimax.model_present_value.present_value import GeneratePresentValue
 from tumlknexpectimax.tree.build_tree import TreeBuilder
 from tumlknexpectimax.output_parser.create_output_json import OutputJSON
 from tumlknexpectimax.output_parser.create_output_graphs import OutputGraphs
 import copy
 import time
 import sys
-
+import os
 # TODO: 10-05-2018: Update for hybridpon
 
 
@@ -31,20 +32,11 @@ class ExpectiNPV:
 
     def __init__(self, filename,START_YEAR, MAX_YEAR, pen_curve, depth_100, only_ftth=False):
         self.xparse = xls_parser.Parser()
-        parsed_adsl_0,parsed_fttc_1,parsed_fttb_2, \
-        parsed_fttb_3, parsed_ftth_4, parsed_ftth_5, parsed_fttc_6_force, parsed_fttb_7_force, parsed_fttb_8_force, \
-        parsed_fttc_hybridpon_9, parsed_fttb_hybridpon_10, parsed_ftth_hybridpon_11, parsed_fttc_hybridpon_12_force, \
-        parsed_fttb_hybridpon_13_force, capex_values, mig_matrix = self.xparse.xls_parse_business(filename) # 'input_data_residential.xlsx'
 
-        self.pv_dict = {0: parsed_adsl_0.to_dict(),1: parsed_fttc_1.to_dict(), 2:parsed_fttb_2.to_dict(),
-                        3:parsed_fttb_3.to_dict(), 4: parsed_ftth_4.to_dict(), 5:parsed_ftth_5.to_dict(),
-                        6: parsed_fttc_6_force.to_dict(), 7:parsed_fttb_7_force.to_dict(),
-                        8: parsed_fttb_8_force.to_dict(), 9: parsed_fttc_hybridpon_9.to_dict(),
-                        10: parsed_fttb_hybridpon_10.to_dict(), 11: parsed_ftth_hybridpon_11.to_dict(),
-                        12: parsed_fttc_hybridpon_12_force.to_dict(), 13: parsed_fttb_hybridpon_13_force.to_dict()}
+        capex_values, opex_values, mig_matrix = self.xparse.xls_parse_business(filename) # 'input_data_residential.xlsx'
 
         self.capex_values_dict = capex_values.to_dict()
-
+        self.opex_values = opex_values['Approx OPEX per year'].to_dict()
         self.mig_matrix = mig_matrix.to_dict()
 
         self.techindex = {0:u'ADSL',1:u'FTTC_GPON_25',2:u'FTTB_XGPON_50', 3:u'FTTB_UDWDM_50',
@@ -53,10 +45,10 @@ class ExpectiNPV:
                           10:u'FTTB_Hybridpon_50', 11:u'FTTH_Hybridpon_100', 12:u'FTTC_Hybridpon_100',
                           13:u'FTTB_Hybridpon_100'}
         self.data_rate = {0: 20, 1: 25, 2: 50, 3: 50, 4: 100, 5: 100, 6: 100, 7: 100, 8: 100, 9: 25, 10: 50, 11: 100, 12: 100, 13: 100}
-        # {20: [0], 25: [1, 9], 50: [2, 3], 100: [4, 5, 6, 7, 8, 10, 11, 12, 13]}
+
         self.START_YEAR = START_YEAR
         self.MAX_YEAR = MAX_YEAR
-        # self.node_mig_dict = {0: [0,1,2,3,4,5,6,7,8], 1: [1, 2, 5, 6, 7], 2: [2, 5, 7], 3: [3, 4, 8], 4: [4],5: [5], 6: [5, 6, 7], 7: [4, 5, 7], 8: [8]}
+
         if not only_ftth:
             self.node_mig_dict_unforced = {0: [0,1,2,3,4,5,6,7,8,9,10,11,12,13], 1: [1, 2, 5, 6, 7], 2: [2, 5, 7],
                                        3: [3, 4, 8], 4: [4],5: [5], 6: [5, 6, 7], 7: [7, 5], 8: [8, 4],
@@ -79,13 +71,14 @@ class ExpectiNPV:
         self.pen_curve = pen_curve
         self.path_list = []
         self.force_depth = depth_100
-        # self.disc_rate = 0.1
+        self.disc_rate = 0.1
+        self.present_value_gen = GeneratePresentValue('residential',self.pen_curve,self.disc_rate,self.opex_values)
 
     def build_residential_tree(self, start_node_tech, prob):
 
         treeBuild = TreeBuilder(self.node_mig_dict_forced,self.node_mig_dict_unforced,self.capex_values_dict,
-                                     self.techindex,self.mig_matrix,self.pv_dict,self.pen_curve,self.path_list,
-                                     self.force_depth,self.START_YEAR,self.MAX_YEAR)
+                                     self.techindex,self.mig_matrix,self.pen_curve,self.path_list,
+                                     self.force_depth,self.START_YEAR,self.MAX_YEAR,self.present_value_gen)
 
         time_interval_cf,next_tech,intermediate_path_dict = treeBuild.build_mini_tree(self.action_list,
                                                                                            self.node_mig_dict_unforced,
@@ -96,11 +89,11 @@ class ExpectiNPV:
 
 def run_expecti_residential(inputfile, startyear, maxyear, penetration_curve,depth_all_100,only_ftth):
 
-        # action_list = []
+
         start = startyear
         end = maxyear
         start_node_tech = 0
-        # intermediate_path_list = []
+
         tech_changes_at_intervals = []
         t1 = time.time()
         filename = inputfile
@@ -120,7 +113,7 @@ def run_expecti_residential(inputfile, startyear, maxyear, penetration_curve,dep
 
         time_taken = t2-t1
         expected_npv = time_interval_cf
-        # print('The complete path is',intermediate_path_list)
+
         max_tech = 0
         for tech_num in intermediate_path_list:
             if tech_num >= max_tech:
@@ -186,9 +179,9 @@ if __name__ == "__main__":
 
     # Dump to json file
     output_parser.dump_to_json(output_parser.is_ftth_dict)
-    grapher = OutputGraphs(r"C:\Users\ga47kiw\PycharmProjects\tumlknexpectimax")
-    grapher.create_npv_graph(0)
-    grapher.create_migration_steps(0)
+    # grapher = OutputGraphs(os.path.join(os.getcwd(),'..'))
+    # grapher.create_npv_graph(0)
+    # grapher.create_migration_steps(0)
 
 
 
