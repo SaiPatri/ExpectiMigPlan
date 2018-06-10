@@ -33,12 +33,12 @@ class ExpectiNPVBusiness:
     # Class variable
     action_dict = {}
 
-    def __init__(self, filename,START_YEAR, MAX_YEAR, pen_curve,depth_100,only_ftth):
+    def __init__(self, filename,START_YEAR, MAX_YEAR, pen_curve,depth_100,only_ftth=False):
         self.xparse = xls_parser.Parser()
         capex_values, opex_values,mig_matrix = self.xparse.xls_parse_business(filename) # 'input_data_residential.xlsx'
 
         self.capex_values_dict = capex_values.to_dict()
-        self.opex_values_dict = opex_values['Approx OPEX per year'].to_dict()
+        self.opex_values = opex_values['Approx OPEX per year'].to_dict()
         self.mig_matrix = mig_matrix.to_dict()
 
         self.techindex = {0:u'ADSL',1:u'FTTC_GPON_25',2:u'FTTB_XGPON_50', 3:u'FTTB_UDWDM_50',
@@ -77,13 +77,13 @@ class ExpectiNPVBusiness:
         self.path_list = []
         self.force_depth = depth_100
         self.disc_rate = 0.1
-        self.present_value_gen = GeneratePresentValue('residential', self.pen_curve, self.disc_rate, self.opex_values)
+        self.present_value_gen = GeneratePresentValue('business', self.pen_curve, self.disc_rate,self.opex_values)
 
     def build_business_tree(self, start_node_tech, prob):
 
         treeBuild = TreeBuilder(self.node_mig_dict_forced,self.node_mig_dict_unforced,self.capex_values_dict,
                                      self.techindex,self.mig_matrix,self.pen_curve,self.path_list,
-                                     self.force_depth,self.START_YEAR,self.MAX_YEAR)
+                                     self.force_depth,self.START_YEAR,self.MAX_YEAR,self.present_value_gen)
 
         time_interval_cf,next_tech,intermediate_path_dict = treeBuild.build_mini_tree(self.action_list,
                                                                                            self.node_mig_dict_unforced,
@@ -181,6 +181,6 @@ if __name__ == "__main__":
 
     # Dump to json file
     output_parser.dump_to_json(output_parser.is_ftth_dict)
-    grapher = OutputGraphs(r"C:\Users\ga47kiw\PycharmProjects\tumlknexpectimax")
-    grapher.create_npv_graph(1)
-    grapher.create_migration_steps(1)
+    # grapher = OutputGraphs(r"C:\Users\ga47kiw\PycharmProjects\tumlknexpectimax")
+    # grapher.create_npv_graph(1)
+    # grapher.create_migration_steps(1)

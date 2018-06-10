@@ -45,13 +45,13 @@ class MaxNode:
 
         if current_year == self.MAX_YEAR:   # If we have reached max year we should hit a terminal node
 
-            terminal = TerminalNode(self.pen_curve,self.START_YEAR,self.cust_dict[self.pen_curve][depth],self.pv)
+            terminal = TerminalNode(self.pen_curve,self.START_YEAR,self.cust_dict[self.pen_curve],self.pv)
             if depth < 10:
                 capex_rev_terminal = -(self.capex_values_dict['Electronic Cost'][self.techindex[node_technology]])
             return [sum([terminal.terminal_node(node_technology,dep,churn_rate) for dep in range(depth, 2038-self.START_YEAR)])+capex_rev_terminal, depth, node_technology,'NONE', []]    # Returns the value of the PV cashflow along with a list of the [depth, technology_of_terminal, child_of_terminal, previous_list]
         elif node_technology in [4,5,6,7,8,11,12,13]:
             # TODO: Need to check here if we can try to find the sum value of the remainder years and whether it affects our decision
-            terminal = TerminalNode(self.pen_curve,self.START_YEAR,self.cust_dict[self.pen_curve][depth],self.pv)
+            terminal = TerminalNode(self.pen_curve,self.START_YEAR,self.cust_dict[self.pen_curve],self.pv)
             if depth < 10:
                 capex_rev_terminal = -(self.capex_values_dict['Electronic Cost'][self.techindex[node_technology]])
             return [sum([terminal.terminal_node(node_technology,dep,churn_rate) for dep in range(depth, 2038-self.START_YEAR)])+capex_rev_terminal, depth, node_technology,'NONE', []]

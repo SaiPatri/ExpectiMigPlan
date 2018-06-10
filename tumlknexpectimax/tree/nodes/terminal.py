@@ -19,9 +19,11 @@ class TerminalNode:
 
         # Returning total cashflow from terminal node
         if churn_rate == 0:
-            return self.pv.PV_no_churn(self.START_YEAR, depth, self.customers, node_technology)
+            terminal_pv_no_churn = self.pv.PV_no_churn(self.START_YEAR, depth, self.customers[depth], node_technology)
+            return terminal_pv_no_churn
             # return self.pv_dict[node_technology][self.pen_curve][self.START_YEAR+depth]
         else:
-            return self.pv.PV_churn(self.START_YEAR,depth,churn_rate,self.customers,node_technology)
+            terminal_pv_churn = self.pv.PV_churn(self.START_YEAR,depth,churn_rate,self.customers[depth],node_technology)
+            return terminal_pv_churn
             # return self.pv_dict[node_technology][self.pen_curve+'_churn'][self.START_YEAR+depth]
 

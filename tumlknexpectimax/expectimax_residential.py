@@ -50,18 +50,18 @@ class ExpectiNPV:
         self.MAX_YEAR = MAX_YEAR
 
         if not only_ftth:
-            self.node_mig_dict_unforced = {0: [0,1,2,3,4,5,6,7,8,9,10,11,12,13], 1: [1, 2, 5, 6, 7], 2: [2, 5, 7],
-                                       3: [3, 4, 8], 4: [4],5: [5], 6: [5, 6, 7], 7: [7, 5], 8: [8, 4],
-                                       9: [9, 10, 11, 12, 13], 10: [10, 11, 13], 11: [11], 12: [11, 12, 13],
-                                       13: [11, 13]}
+            self.node_mig_dict_unforced = {0: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+                                           1: [1, 2, 5, 6, 7], 2: [2, 5, 7], 3: [3, 4, 8], 4: [4],5: [5],
+                                           6: [5, 6, 7], 7: [7, 5], 8: [8, 4], 9: [9, 10, 11, 12, 13],
+                                           10: [10, 11, 13], 11: [11], 12: [11, 12, 13], 13: [11, 13]}
                                        
-            self.node_mig_dict_forced = {0: [4, 5, 6, 7, 8, 11, 12, 13], 1: [5, 6], 2: [5, 7], 3: [4, 8], 4: [4], 5: [5],
-                                     6: [5, 6, 7], 7: [7, 5], 8: [8, 4], 9: [11, 12, 13], 10: [11, 13], 11: [11],
-                                     12: [11,12,13], 13: [11,13]}
+            self.node_mig_dict_forced = {0: [4, 5, 6, 7, 8, 11, 12, 13], 1: [5, 6], 2: [5, 7], 3: [4, 8], 4: [4],
+                                         5: [5], 6: [5, 6, 7], 7: [7, 5], 8: [8, 4], 9: [11, 12, 13], 10: [11, 13],
+                                         11: [11], 12: [11, 12, 13], 13: [11, 13]}
                         
         else:
-            self.node_mig_dict_unforced = {0: [0,1,2,3,4,5,9,10,11], 1: [1, 2, 5], 2: [2, 5],
-                                       3: [3, 4], 4: [4],5: [5], 6: [5, 6, 7], 7: [7, 5], 8: [8, 4],
+            self.node_mig_dict_unforced = {0: [0, 1, 2, 3, 4, 5, 9, 10, 11], 1: [1, 2, 5], 2: [2, 5],
+                                           3: [3, 4], 4: [4],5: [5], 6: [5, 6, 7], 7: [7, 5], 8: [8, 4],
                                        9: [9, 10, 11], 10: [10, 11], 11: [11], 12: [11, 12, 13],
                                        13: [11, 13]}
             self.node_mig_dict_forced = {0: [4, 5, 11], 1: [5], 2: [5], 3: [4], 4: [4], 5: [5],
@@ -88,7 +88,6 @@ class ExpectiNPV:
 
 
 def run_expecti_residential(inputfile, startyear, maxyear, penetration_curve,depth_all_100,only_ftth):
-
 
         start = startyear
         end = maxyear
@@ -143,10 +142,10 @@ if __name__ == "__main__":
 
     if len(sys.argv) < 2:
 
-        print ('This script needs the following parameters')
-        print ("input_file name stored in the current working directory of script eg: input_data.xlsx")
-        print ('start year eg 2018')
-        print ('end year eg 2038')
+        print('This script needs the following parameters')
+        print("input_file name stored in the current working directory of script eg: input_data.xlsx")
+        print('start year eg 2018')
+        print('end year eg 2038')
         print('Look ahead horizon for the agent, eg: 5,10,15. Do not cross 15')
     print('Optical Network Migration Planning Tool\n')
     print('Copyright: Chair of Communication Networks, Technical University of Munich, 2018\n')

@@ -49,30 +49,31 @@ class GeneratePresentValue:
         elif self.type == 'business':
             # Since 7% of customers are business
             business_customers = math.floor(0.07*no_customers)
-            residential_cusomters = math.ceil(no_customers-business_customers)
+            residential_customers = math.ceil(no_customers-business_customers)
             post_churn_business_cust = int(business_customers-churn_rate*business_customers)
-            post_churn_residential_cust = int(residential_cusomters-churn_rate*residential_cusomters)
-            yearly_rev = post_churn_residential_cust*self.rev_dict_residential[tech_index]+post_churn_business_cust*self.rev_dict_business[tech_index]
+            post_churn_residential_cust = int(residential_customers-churn_rate*residential_customers)
+            yearly_rev = post_churn_residential_cust*self.rev_dict_residential[tech_index]+\
+                         post_churn_business_cust*self.rev_dict_business[tech_index]
             current_cashflow = yearly_rev-current_opex
         else:
             business_customers = math.floor(0.07 * no_customers)
-            residential_cusomters = math.ceil(no_customers - business_customers)
+            residential_customers = math.ceil(no_customers - business_customers)
             post_churn_business_cust = int(business_customers - churn_rate * business_customers)
-            post_churn_residential_cust = int(residential_cusomters - churn_rate * residential_cusomters)
+            post_churn_residential_cust = int(residential_customers - churn_rate * residential_customers)
             if index < 7:
-
-                yearly_rev = post_churn_residential_cust * self.rev_dict_residential[
-                    tech_index] + post_churn_business_cust * self.rev_dict_business[tech_index]
+                yearly_rev = post_churn_residential_cust * self.rev_dict_residential[tech_index] \
+                             + post_churn_business_cust * self.rev_dict_business[tech_index]
 
             elif index == 7:
 
-                yearly_rev = post_churn_residential_cust * self.rev_dict_residential[
-                    tech_index] + post_churn_business_cust * self.rev_dict_business[tech_index]+ self.no_its_demands*(self.its_onetime+self.its_yearly)
+                yearly_rev = post_churn_residential_cust * self.rev_dict_residential[tech_index] + \
+                             post_churn_business_cust * self.rev_dict_business[tech_index]+ \
+                             self.no_its_demands*(self.its_onetime+self.its_yearly)
 
             else:
-                yearly_rev = post_churn_residential_cust * self.rev_dict_residential[
-                    tech_index] + post_churn_business_cust * self.rev_dict_business[
-                                 tech_index] + self.no_its_demands *self.its_yearly
+                yearly_rev = post_churn_residential_cust * self.rev_dict_residential[tech_index] + \
+                             post_churn_business_cust * self.rev_dict_business[tech_index] + \
+                             self.no_its_demands*self.its_yearly
 
             current_cashflow = yearly_rev - current_opex
 
@@ -94,17 +95,17 @@ class GeneratePresentValue:
         elif self.type == 'business':
             # Since 7% of customers are business
             business_customers = math.floor(0.07 * no_customers)
-            residential_cusomters = math.ceil(no_customers - business_customers)
+            residential_customers = math.ceil(no_customers - business_customers)
             business_cust = int(business_customers)
-            residential_cust = int(residential_cusomters)
-            yearly_rev = residential_cust * self.rev_dict_residential[
-                tech_index] + business_cust * self.rev_dict_business[tech_index]
+            residential_cust = int(residential_customers)
+            yearly_rev = residential_cust * self.rev_dict_residential[tech_index] + \
+                         business_cust * self.rev_dict_business[tech_index]
             current_cashflow = yearly_rev - current_opex
         else:
             business_customers = math.floor(0.07 * no_customers)
-            residential_cusomters = math.ceil(no_customers - business_customers)
+            residential_customers = math.ceil(no_customers - business_customers)
             business_cust = int(business_customers)
-            residential_cust = int(residential_cusomters)
+            residential_cust = int(residential_customers)
             if index < 7:
 
                 yearly_rev = residential_cust * self.rev_dict_residential[
