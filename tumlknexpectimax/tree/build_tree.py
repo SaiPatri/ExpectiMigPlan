@@ -62,7 +62,6 @@ class TreeBuilder:
         else:
             child_path_list = child_list_cfnochurn
 
-
         # child_path_list = child_list_cfchurn
         # TODO: WHAT THE FUCKKKKKKK DO YOU WANT FROM HERE?!?!?!?!?!
         # TODO: ANSWER--- I need the final expected NPV+ path taken by the children

@@ -50,7 +50,7 @@ class ChanceNode:
                 lst = lst.pop(-1)
                 maxdepth+=1
 
-    def chancer(self,type, node_technology,depth,children,churn_rate,prob_churn):
+    def chancer(self, node_technology,depth,children,prob_churn):
         """
 
         :param type:

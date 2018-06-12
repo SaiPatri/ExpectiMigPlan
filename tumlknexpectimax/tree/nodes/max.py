@@ -25,7 +25,10 @@ class MaxNode:
             'Likely PV': [96, 132, 183, 257, 363, 514, 727, 1027, 1446, 2028, 2822, 3887, 5281, 7042, 9166, 11580,
                           14126, 16582, 18730, 20431, 21658],
             'Aggr PV': [96, 179, 342, 661, 1284, 2473, 4660, 8373, 13760, 19517, 22973, 23713, 23747, 23753, 23756,
-                        23758, 23759, 23759, 23760, 23760, 23760]}
+                        23758, 23759, 23759, 23760, 23760, 23760]
+        }
+        self.next_terminal = None
+        self.next_chancer = None
 
         pass
 
@@ -45,18 +48,18 @@ class MaxNode:
 
         if current_year == self.MAX_YEAR:   # If we have reached max year we should hit a terminal node
 
-            terminal = TerminalNode(self.pen_curve,self.START_YEAR,self.cust_dict[self.pen_curve],self.pv)
+            self.next_terminal = TerminalNode(self.pen_curve,self.START_YEAR,self.cust_dict[self.pen_curve],self.pv)
             if depth < 10:
                 capex_rev_terminal = -(self.capex_values_dict['Electronic Cost'][self.techindex[node_technology]])
-            return [sum([terminal.terminal_node(node_technology,dep,churn_rate) for dep in range(depth, 2038-self.START_YEAR)])+capex_rev_terminal, depth, node_technology,'NONE', []]    # Returns the value of the PV cashflow along with a list of the [depth, technology_of_terminal, child_of_terminal, previous_list]
-        elif node_technology in [4,5,6,7,8,11,12,13]:
+            return [sum([self.next_terminal.terminal_node(node_technology,dep,churn_rate) for dep in range(depth, 2038-self.START_YEAR)])+capex_rev_terminal, depth, node_technology,'NONE', []]    # Returns the value of the PV cashflow along with a list of the [depth, technology_of_terminal, child_of_terminal, previous_list]
+        elif node_technology in [4, 5, 6, 7, 8, 11, 12, 13]:
             # TODO: Need to check here if we can try to find the sum value of the remainder years and whether it affects our decision
-            terminal = TerminalNode(self.pen_curve,self.START_YEAR,self.cust_dict[self.pen_curve],self.pv)
+            self.next_terminal = TerminalNode(self.pen_curve,self.START_YEAR,self.cust_dict[self.pen_curve],self.pv)
             if depth < 10:
                 capex_rev_terminal = -(self.capex_values_dict['Electronic Cost'][self.techindex[node_technology]])
-            return [sum([terminal.terminal_node(node_technology,dep,churn_rate) for dep in range(depth, 2038-self.START_YEAR)])+capex_rev_terminal, depth, node_technology,'NONE', []]
+            return [sum([self.next_terminal.terminal_node(node_technology,dep,churn_rate) for dep in range(depth, 2038-self.START_YEAR)])+capex_rev_terminal, depth, node_technology,'NONE', []]
         else:
-            next_year_chancer = ChanceNode(self.node_mig_dict_forced, self.node_mig_dict_unforced,
+            self.next_chancer = ChanceNode(self.node_mig_dict_forced, self.node_mig_dict_unforced,
                                            self.capex_values_dict, self.techindex, self.mig_matrix, self.pen_curve,
                                            self.path_list, self.force_depth,self.START_YEAR, self.MAX_YEAR,self.pv)
             max_derived_cf = -1000000000
@@ -83,9 +86,9 @@ class MaxNode:
                         capex_rev = -self.mig_matrix[self.techindex[child_technology]][self.techindex[node_technology]]
 
                 if type is 'MAXNOCHURN':
-                    child_details = next_year_chancer.chancer('Chance', child_technology, depth+1, current_child_list, 0, prob_churn)
+                    child_details = self.next_chancer.chancer(child_technology, depth+1, current_child_list, prob_churn)
                 else:
-                    child_details = next_year_chancer.chancer('Chance', child_technology, depth+1, current_child_list, 0.1, prob_churn)
+                    child_details = self.next_chancer.chancer(child_technology, depth+1, current_child_list, prob_churn)
 
                 future_cf = child_details[0]
                 if isinstance(child_details[1:][0],list):

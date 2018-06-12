@@ -89,6 +89,17 @@ class OutputGraphs:
         plt.axhline(0,color='k')
         plt.show(block=False)
 
+    def len_check(self, mig_tree,START_YEAR,END_YEAR):
+
+        if len(mig_tree) > END_YEAR-START_YEAR:
+            number_to_pop = len(mig_tree) - (END_YEAR-START_YEAR)
+            mig_tree = mig_tree[:len(mig_tree)-number_to_pop]
+        if len(mig_tree) < END_YEAR-START_YEAR:
+            number_to_add = END_YEAR-START_YEAR-len(mig_tree)
+            last_tech = mig_tree[-1]
+            for num in range(1,number_to_add):
+                mig_tree.append(last_tech)
+        return mig_tree
     def create_migration_steps(self,scenario=0):
         """
         Datarate vs year of migration for all 12 different cases
@@ -114,7 +125,9 @@ class OutputGraphs:
         x_col = 0
         y_col = 0
         mig_years = {}
-        x = np.arange(2018,2030,1)
+        START_YEAR = 2018
+        END_YEAR = 2030
+        x = np.arange(START_YEAR,END_YEAR,1)
         x0 = x.copy()-0.2
         x2 = x.copy()+0.2
         f, axarr = plt.subplots(2, 2)
@@ -156,6 +169,10 @@ class OutputGraphs:
                         mig_tree_aggr.pop(-1)
                 """
                 # mig_tree_data_rate = [val for val in data_rate[mig_tree.pop(0)]]
+                mig_tree_cons = self.len_check(mig_tree_cons,START_YEAR,END_YEAR)
+                mig_tree_likely = self.len_check(mig_tree_likely,START_YEAR,END_YEAR)
+                mig_tree_aggr = self.len_check(mig_tree_aggr,START_YEAR,END_YEAR)
+
                 axarr[x_col,y_col].step(x0,mig_tree_cons, color='red',label = 'Conservative Penetration')
                 axarr[x_col,y_col].step(x,[val+2 for val in mig_tree_likely], color='blue',label = 'Likely Penetration')
                 axarr[x_col,y_col].step(x2,[val+4 for val in mig_tree_aggr], color='green',label = 'Aggressive Penetration')
