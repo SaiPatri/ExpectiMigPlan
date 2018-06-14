@@ -144,9 +144,9 @@ if __name__ == "__main__":
 
         print('This script needs the following parameters')
         print("input_file name stored in the current working directory of script eg: input_data.xlsx")
-        print('start year eg 2018')
-        print('end year eg 2038')
-        print('Look ahead horizon for the agent, eg: 5,10,15. Do not cross 15')
+        print('start year of migration window eg 2018')
+        print('end year of migration window eg 2038')
+        print('Depth limited Expectimax Search: 10 years')
     print('Optical Network Migration Planning Tool\n')
     print('Copyright: Chair of Communication Networks, Technical University of Munich, 2018\n')
     print ('For different penetration curves, returns the expected NPV and path taken to reach final technology')
