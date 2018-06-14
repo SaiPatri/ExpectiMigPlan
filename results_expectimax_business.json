@@ -3,7 +3,7 @@
         "depth_to_force_100mbps_migrations": 25, 
         "migration_info": {
             "Aggr PV": {
-                "total_time": 3124.1080000400543, 
+                "total_time": 244.67600011825562, 
                 "mig_years": {
                     "2019": "FTTB_UDWDM_100"
                 }, 
@@ -20,17 +20,13 @@
                     "FTTB_UDWDM_100", 
                     "FTTB_UDWDM_100", 
                     "FTTB_UDWDM_100", 
-                    "FTTB_UDWDM_100", 
-                    "FTTB_UDWDM_100", 
-                    "FTTB_UDWDM_100", 
-                    "FTTB_UDWDM_100", 
                     "FTTB_UDWDM_100"
                 ], 
-                "NPV_expected": 1038035.177493561, 
+                "NPV_expected": 1038152.0595915267, 
                 "year_to_final_tech": 2019
             }, 
             "Likely PV": {
-                "total_time": 3123.529000043869, 
+                "total_time": 246.8089997768402, 
                 "mig_years": {
                     "2019": "FTTB_UDWDM_50", 
                     "2028": "FTTB_UDWDM_100"
@@ -48,17 +44,13 @@
                     "FTTB_UDWDM_50", 
                     "FTTB_UDWDM_50", 
                     "FTTB_UDWDM_100", 
-                    "FTTB_UDWDM_100", 
-                    "FTTB_UDWDM_100", 
-                    "FTTB_UDWDM_100", 
-                    "FTTB_UDWDM_100", 
                     "FTTB_UDWDM_100"
                 ], 
-                "NPV_expected": 249676.65009737067, 
+                "NPV_expected": 249772.46129167645, 
                 "year_to_final_tech": 2028
             }, 
             "Cons PV": {
-                "total_time": 3233.401999950409, 
+                "total_time": 238.2059998512268, 
                 "mig_years": {
                     "2019": "FTTB_UDWDM_50", 
                     "2028": "FTTB_UDWDM_100"
@@ -76,13 +68,9 @@
                     "FTTB_UDWDM_50", 
                     "FTTB_UDWDM_50", 
                     "FTTB_UDWDM_100", 
-                    "FTTB_UDWDM_100", 
-                    "FTTB_UDWDM_100", 
-                    "FTTB_UDWDM_100", 
-                    "FTTB_UDWDM_100", 
                     "FTTB_UDWDM_100"
                 ], 
-                "NPV_expected": 154078.5502638269, 
+                "NPV_expected": 154214.0182633866, 
                 "year_to_final_tech": 2028
             }
         }, 
@@ -92,7 +80,7 @@
         "depth_to_force_100mbps_migrations": 25, 
         "migration_info": {
             "Aggr PV": {
-                "total_time": 2246.315999984741, 
+                "total_time": 146.52400016784668, 
                 "mig_years": {
                     "2019": "FTTB_UDWDM_50", 
                     "2028": "FTTH_UDWDM_100"
@@ -110,17 +98,13 @@
                     "FTTB_UDWDM_50", 
                     "FTTB_UDWDM_50", 
                     "FTTH_UDWDM_100", 
-                    "FTTH_UDWDM_100", 
-                    "FTTH_UDWDM_100", 
-                    "FTTH_UDWDM_100", 
-                    "FTTH_UDWDM_100", 
                     "FTTH_UDWDM_100"
                 ], 
-                "NPV_expected": 851899.5271421983, 
+                "NPV_expected": 852011.1898307281, 
                 "year_to_final_tech": 2028
             }, 
             "Likely PV": {
-                "total_time": 2372.5979998111725, 
+                "total_time": 152.09800004959106, 
                 "mig_years": {
                     "2019": "FTTB_UDWDM_50"
                 }, 
@@ -138,17 +122,13 @@
                     "FTTB_UDWDM_50", 
                     "FTTB_UDWDM_50", 
                     "FTTB_UDWDM_50", 
-                    "FTTB_UDWDM_50", 
-                    "FTTB_UDWDM_50", 
-                    "FTTB_UDWDM_50", 
-                    "FTTB_UDWDM_50", 
                     "FTTB_UDWDM_50"
                 ], 
-                "NPV_expected": 159244.5568765664, 
-                "year_to_final_tech": 2034
+                "NPV_expected": 159343.9552677412, 
+                "year_to_final_tech": 2030
             }, 
             "Cons PV": {
-                "total_time": 2375.454999923706, 
+                "total_time": 161.49200010299683, 
                 "mig_years": {
                     "2019": "FTTB_UDWDM_50"
                 }, 
@@ -166,14 +146,10 @@
                     "FTTB_UDWDM_50", 
                     "FTTB_UDWDM_50", 
                     "FTTB_UDWDM_50", 
-                    "FTTB_UDWDM_50", 
-                    "FTTB_UDWDM_50", 
-                    "FTTB_UDWDM_50", 
-                    "FTTB_UDWDM_50", 
                     "FTTB_UDWDM_50"
                 ], 
-                "NPV_expected": 83526.93601730773, 
-                "year_to_final_tech": 2034
+                "NPV_expected": 83659.09886963242, 
+                "year_to_final_tech": 2030
             }
         }, 
         "is_ftth_and_force": true
@@ -182,7 +158,7 @@
         "depth_to_force_100mbps_migrations": 7, 
         "migration_info": {
             "Aggr PV": {
-                "total_time": 1.4850001335144043, 
+                "total_time": 2.763000011444092, 
                 "mig_years": {
                     "2019": "FTTB_UDWDM_100"
                 }, 
@@ -199,17 +175,13 @@
                     "FTTB_UDWDM_100", 
                     "FTTB_UDWDM_100", 
                     "FTTB_UDWDM_100", 
-                    "FTTB_UDWDM_100", 
-                    "FTTB_UDWDM_100", 
-                    "FTTB_UDWDM_100", 
-                    "FTTB_UDWDM_100", 
                     "FTTB_UDWDM_100"
                 ], 
-                "NPV_expected": 1038035.177493561, 
+                "NPV_expected": 1038152.0595915267, 
                 "year_to_final_tech": 2019
             }, 
             "Likely PV": {
-                "total_time": 1.5109999179840088, 
+                "total_time": 2.7039999961853027, 
                 "mig_years": {
                     "2019": "FTTB_UDWDM_100"
                 }, 
@@ -226,17 +198,13 @@
                     "FTTB_UDWDM_100", 
                     "FTTB_UDWDM_100", 
                     "FTTB_UDWDM_100", 
-                    "FTTB_UDWDM_100", 
-                    "FTTB_UDWDM_100", 
-                    "FTTB_UDWDM_100", 
-                    "FTTB_UDWDM_100", 
                     "FTTB_UDWDM_100"
                 ], 
-                "NPV_expected": 243852.86048597266, 
+                "NPV_expected": 243942.57529089187, 
                 "year_to_final_tech": 2019
             }, 
             "Cons PV": {
-                "total_time": 1.498000144958496, 
+                "total_time": 2.757999897003174, 
                 "mig_years": {
                     "2019": "FTTB_UDWDM_100"
                 }, 
@@ -253,13 +221,9 @@
                     "FTTB_UDWDM_100", 
                     "FTTB_UDWDM_100", 
                     "FTTB_UDWDM_100", 
-                    "FTTB_UDWDM_100", 
-                    "FTTB_UDWDM_100", 
-                    "FTTB_UDWDM_100", 
-                    "FTTB_UDWDM_100", 
                     "FTTB_UDWDM_100"
                 ], 
-                "NPV_expected": 146206.35844247608, 
+                "NPV_expected": 146348.1934206537, 
                 "year_to_final_tech": 2019
             }
         }, 
@@ -269,7 +233,7 @@
         "depth_to_force_100mbps_migrations": 7, 
         "migration_info": {
             "Aggr PV": {
-                "total_time": 0.9620001316070557, 
+                "total_time": 1.4590001106262207, 
                 "mig_years": {
                     "2019": "FTTC_GPON_25", 
                     "2020": "FTTB_XGPON_50", 
@@ -288,17 +252,13 @@
                     "FTTH_XGPON_100", 
                     "FTTH_XGPON_100", 
                     "FTTH_XGPON_100", 
-                    "FTTH_XGPON_100", 
-                    "FTTH_XGPON_100", 
-                    "FTTH_XGPON_100", 
-                    "FTTH_XGPON_100", 
                     "FTTH_XGPON_100"
                 ], 
-                "NPV_expected": 810894.7552649471, 
+                "NPV_expected": 804388.0641598463, 
                 "year_to_final_tech": 2023
             }, 
             "Likely PV": {
-                "total_time": 0.9739999771118164, 
+                "total_time": 1.4550001621246338, 
                 "mig_years": {
                     "2025": "FTTH_XGPON_100", 
                     "2019": "FTTC_GPON_25", 
@@ -317,42 +277,34 @@
                     "FTTH_XGPON_100", 
                     "FTTH_XGPON_100", 
                     "FTTH_XGPON_100", 
-                    "FTTH_XGPON_100", 
-                    "FTTH_XGPON_100", 
-                    "FTTH_XGPON_100", 
-                    "FTTH_XGPON_100", 
                     "FTTH_XGPON_100"
                 ], 
-                "NPV_expected": 25878.71050021711, 
+                "NPV_expected": 19292.439658015915, 
                 "year_to_final_tech": 2025
             }, 
             "Cons PV": {
-                "total_time": 0.9609999656677246, 
+                "total_time": 1.4709999561309814, 
                 "mig_years": {
                     "2025": "FTTH_XGPON_100", 
                     "2019": "FTTC_GPON_25", 
-                    "2022": "FTTB_XGPON_50"
+                    "2021": "FTTB_XGPON_50"
                 }, 
                 "final_data_rate": 100, 
                 "mig_path": [
                     "ADSL", 
                     "FTTC_GPON_25", 
                     "FTTC_GPON_25", 
-                    "FTTC_GPON_25", 
                     "FTTB_XGPON_50", 
                     "FTTB_XGPON_50", 
                     "FTTB_XGPON_50", 
-                    "FTTH_XGPON_100", 
-                    "FTTH_XGPON_100", 
-                    "FTTH_XGPON_100", 
-                    "FTTH_XGPON_100", 
+                    "FTTB_XGPON_50", 
                     "FTTH_XGPON_100", 
                     "FTTH_XGPON_100", 
                     "FTTH_XGPON_100", 
                     "FTTH_XGPON_100", 
                     "FTTH_XGPON_100"
                 ], 
-                "NPV_expected": -71158.27167200063, 
+                "NPV_expected": -77708.65064439047, 
                 "year_to_final_tech": 2025
             }
         }, 

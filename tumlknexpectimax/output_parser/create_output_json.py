@@ -51,7 +51,7 @@ class OutputJSON:
         # check if the file is present
         if os.path.exists(self.path_to_json):
             os.remove(self.path_to_json)
-        mig_values = [{"is_ftth_and_force":tuple_key[0],"depth_to_force_100mbps_migrations": tuple_key[1],"migration_info":mig_info} for tuple_key,mig_info in dict_to_dump.iteritems()]
+        mig_values = [{"is_ftth_and_force":tuple_key[0],"depth_to_force_100mbps_migrations": tuple_key[1],"migration_info":mig_info} for tuple_key,mig_info in dict_to_dump.items()]
         with open(self.path_to_json, 'w') as jsonfile:
             json.dump(mig_values,jsonfile,indent=4)
 

@@ -6,8 +6,8 @@ class TreeBuilder:
 
     """
     # self.node_mig_dict_forced, self.node_mig_dict_unforced, self.capex_values_dict, self.techindex, self.mig_matrix, self.pv_dict, self.pen_curve, self.path_list, self.force_depth,self.START_YEAR, self.MAX_YEAR
-    def __init__(self,node_mig_dict_forced, node_mig_dict_unforced,capex_values,tech_index, mig_matrix, pv_dict,
-                 pen_curve, path_list, forcing_depth, start_year, max_year):
+    def __init__(self,node_mig_dict_forced, node_mig_dict_unforced,capex_values,tech_index, mig_matrix,
+                 pen_curve, path_list, forcing_depth, start_year, max_year,present_value_gen):
         """
         """
         self.node_mig_dict_forced = node_mig_dict_forced
@@ -15,12 +15,13 @@ class TreeBuilder:
         self.capex_values = capex_values
         self.tech_index = tech_index
         self.mig_matrix = mig_matrix
-        self.pv_dict = pv_dict
         self.pen_curve = pen_curve
         self.path_list = path_list
         self.forcing_depth = forcing_depth
         self.START_YEAR = start_year
         self.MAX_YEAR = max_year
+        self.pv = present_value_gen
+
         pass
 
     def depthCount(self, tree_list):
@@ -37,8 +38,8 @@ class TreeBuilder:
     def build_mini_tree(self,action_list,node_mig_dict,start_tech,churn_prob, pen_curve):
         # start_tech = 1
         # TODO: import tree.build_tree
-        maxim = max1.MaxNode(self.node_mig_dict_forced, self.node_mig_dict_unforced,self.capex_values,self.tech_index, self.mig_matrix, self.pv_dict,
-                 self.pen_curve, self.path_list, self.forcing_depth, self.START_YEAR, self.MAX_YEAR)
+        maxim = max1.MaxNode(self.node_mig_dict_forced, self.node_mig_dict_unforced,self.capex_values,self.tech_index, self.mig_matrix,
+                 self.pen_curve, self.path_list, self.forcing_depth, self.START_YEAR, self.MAX_YEAR,self.pv)
 
         expectidetails_churn = maxim.maximizer('MAXCHURN',start_tech,0,node_mig_dict[start_tech],0.1,churn_prob)
         max_cf_churn = expectidetails_churn[0]
@@ -60,7 +61,6 @@ class TreeBuilder:
             child_path_list = child_list_cfchurn
         else:
             child_path_list = child_list_cfnochurn
-
 
         # child_path_list = child_list_cfchurn
         # TODO: WHAT THE FUCKKKKKKK DO YOU WANT FROM HERE?!?!?!?!?!
