@@ -87,10 +87,11 @@ class ExpectiNPV:
         return time_interval_cf,next_tech,intermediate_path_dict
 
 
-def run_expecti_residential(inputfile, startyear, maxyear, penetration_curve,depth_all_100,only_ftth):
+def run_expecti_residential(inputfile, startyear, endyear, penetration_curve,depth_all_100,only_ftth):
 
+        # Every year we need a new start node and a new end node. current year managed in the new program
         start = startyear
-        end = maxyear
+        end = endyear
         start_node_tech = 0
 
         tech_changes_at_intervals = []
@@ -98,16 +99,17 @@ def run_expecti_residential(inputfile, startyear, maxyear, penetration_curve,dep
         filename = inputfile
         # TODO: BUILD TREE COMES HERE
         expectiTreeLikely = ExpectiNPV(filename,start, end,penetration_curve,depth_all_100,only_ftth)
+
         time_interval_cf,next_tech,intermediate_path_list = expectiTreeLikely.build_residential_tree(start_node_tech,0.1)
         tech_changes_at_intervals.append(next_tech)
         action_list = expectiTreeLikely.action_list
         t2 = time.time()
         action_list_new = []
         final_migration_year = startyear
-        if len(action_list) is not maxyear - startyear:
+        if len(action_list) is not endyear - startyear:
             action_list_new = [expectiTreeLikely.techindex[tech] for tech in action_list]
             last_tech = expectiTreeLikely.techindex[action_list[-1]]
-            for year in range(startyear + len(action_list), maxyear):
+            for year in range(startyear + len(action_list), endyear):
                 action_list_new.append(last_tech)
 
         time_taken = t2-t1

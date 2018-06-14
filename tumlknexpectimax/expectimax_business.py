@@ -172,6 +172,9 @@ if __name__ == "__main__":
             for pen_curve in ['Cons PV','Likely PV', 'Aggr PV']:
                 expected_npv, action_list_new, final_migration_year, mig_years, max_data_rate, time_taken=\
                     run_expecti_business(input_file,int(start_year),int(end_year),pen_curve,depth,ftth_flag)
+                # TODO: From here, save the expected_npv, save the action_list_new[1] as the start node, increase startyear
+                # TODO: by 1, increase endyear by 1.. till endyear is not equal to maxyear. if endyear is same as maxyear
+                # TODO: stop simulation.
                 mig_info_pen_dict[pen_curve] = output_parser.build_mig_dict(pen_curve,expected_npv,action_list_new,final_migration_year,mig_years,max_data_rate,time_taken)
 
             output_parser.is_ftth_dict[(ftth_flag,depth)] = copy.deepcopy(mig_info_pen_dict)
