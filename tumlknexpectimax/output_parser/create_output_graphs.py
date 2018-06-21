@@ -97,9 +97,10 @@ class OutputGraphs:
         if len(mig_tree) < END_YEAR-START_YEAR:
             number_to_add = END_YEAR-START_YEAR-len(mig_tree)
             last_tech = mig_tree[-1]
-            for num in range(1,number_to_add):
+            for num in range(0,number_to_add):
                 mig_tree.append(last_tech)
         return mig_tree
+
     def create_migration_steps(self,scenario=0):
         """
         Datarate vs year of migration for all 12 different cases
@@ -150,11 +151,11 @@ class OutputGraphs:
                     elif pen_curve == 'Likely PV':
                         for tech in mig_tree:
                             mig_tree_likely.append(data_rate[tech])
-                        mig_years['Likely'] = json.dumps(migration_data[index]['migration_info'][pen_curve]['mig_years'])
+                        mig_years['Likely'] = json.dumps(migration_data[index]['migration_info'][pen_curve]['mig_years'], sort_keys=True)
                     else:
                         for tech in mig_tree:
                             mig_tree_aggr.append(data_rate[tech])
-                        mig_years['Aggressive'] = json.dumps(migration_data[index]['migration_info'][pen_curve]['mig_years'])
+                        mig_years['Aggressive'] = json.dumps(migration_data[index]['migration_info'][pen_curve]['mig_years'],sort_keys=True)
                 # all three filled
 
                 """
@@ -191,8 +192,10 @@ class OutputGraphs:
                 axarr[x_col,y_col].set_ylabel('Average Datarate in Mbps')
                 axarr[x_col,y_col].grid(True,which='major',axis='x',color='blue',linestyle='--')
                 text_to_add = ''
-                for key,val in mig_years.items():
-                    text_to_add += key+':  '+val+'\n'
+                sorted_keys = mig_years.keys()
+                sorted_keys.sort()
+                for key in sorted_keys:
+                    text_to_add += key+':  '+mig_years[key]+'\n'
                 axarr[x_col,y_col].text(0.5,0.04,text_to_add,va='bottom', ha='center', fontsize=9,weight='semibold',transform=axarr[x_col,y_col].transAxes)
                 axarr[x_col,y_col].legend(loc='center right')
                 index += 1

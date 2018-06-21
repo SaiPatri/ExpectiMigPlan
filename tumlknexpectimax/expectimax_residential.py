@@ -16,6 +16,7 @@ from tumlknexpectimax.model_present_value.present_value import GeneratePresentVa
 from tumlknexpectimax.tree.build_tree import TreeBuilder
 from tumlknexpectimax.output_parser.create_output_json import OutputJSON
 from tumlknexpectimax.output_parser.create_output_graphs import OutputGraphs
+from numpy import random as randgen
 import copy
 import time
 import sys
@@ -48,25 +49,48 @@ class ExpectiNPV:
 
         self.START_YEAR = START_YEAR
         self.MAX_YEAR = MAX_YEAR
-
+        """
         if not only_ftth:
-            self.node_mig_dict_unforced = {0: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
-                                           1: [1, 2, 5, 6, 7], 2: [2, 5, 7], 3: [3, 4, 8], 4: [4],5: [5],
-                                           6: [5, 6, 7], 7: [7, 5], 8: [8, 4], 9: [9, 10, 11, 12, 13],
-                                           10: [10, 11, 13], 11: [11], 12: [11, 12, 13], 13: [11, 13]}
-                                       
-            self.node_mig_dict_forced = {0: [4, 5, 6, 7, 8, 11, 12, 13], 1: [5, 6], 2: [5, 7], 3: [4, 8], 4: [4],
-                                         5: [5], 6: [5, 6, 7], 7: [7, 5], 8: [8, 4], 9: [11, 12, 13], 10: [11, 13],
-                                         11: [11], 12: [11, 12, 13], 13: [11, 13]}
-                        
+            
+            self.node_mig_dict_unforced = {0: [0,1,2,3,4,5,6,7,8,9,10,11,12,13], 1: [1, 2, 5, 6, 7], 2: [2, 5, 7],
+                                       3: [3, 4, 8], 4: [4],5: [5], 6: [5, 6, 7], 7: [7, 5], 8: [8, 4],
+                                       9: [9, 10, 11, 12, 13], 10: [10, 11, 13], 11: [11], 12: [11, 12, 13],
+                                       13: [11, 13]}
+
+            self.node_mig_dict_forced = {0: [4, 5, 6, 7, 8, 11, 12, 13], 1: [5, 6], 2: [5, 7], 3: [4, 8], 4: [4], 5: [5],
+                                     6: [5, 6, 7], 7: [7, 5], 8: [8, 4], 9: [11, 12, 13], 10: [11, 13], 11: [11],
+                                     12: [11,12,13], 13: [11,13]}
+
         else:
-            self.node_mig_dict_unforced = {0: [0, 1, 2, 3, 4, 5, 9, 10, 11], 1: [1, 2, 5], 2: [2, 5],
-                                           3: [3, 4], 4: [4],5: [5], 6: [5, 6, 7], 7: [7, 5], 8: [8, 4],
+            self.node_mig_dict_unforced = {0: [0,1,2,3,4,5,9,10,11], 1: [1, 2, 5], 2: [2, 5],
+                                       3: [3, 4], 4: [4],5: [5], 6: [5, 6, 7], 7: [7, 5], 8: [8, 4],
                                        9: [9, 10, 11], 10: [10, 11], 11: [11], 12: [11, 12, 13],
                                        13: [11, 13]}
             self.node_mig_dict_forced = {0: [4, 5, 11], 1: [5], 2: [5], 3: [4], 4: [4], 5: [5],
                                      6: [5, 6, 7], 7: [7, 5], 8: [8, 4], 9: [11], 10: [11], 11: [11],
                                      12: [11,12,13], 13: [11,13]}
+        #TODO There is a problem with how we are saving the forcing and non forcing json data. Check and correct
+
+        """
+        if not only_ftth:
+            self.node_mig_dict_unforced = {0: [0, 1, 2, 5, 6, 7, 9, 10, 11, 12, 13],
+                                           1: [1, 2, 5, 6, 7], 2: [2, 5, 7],5: [5],
+                                           6: [5, 6, 7], 7: [7, 5], 9: [9, 10, 11, 12, 13],
+                                           10: [10, 11, 13], 11: [11], 12: [11, 12, 13], 13: [11, 13]}
+
+            self.node_mig_dict_forced = {0: [5, 6, 7, 11, 12, 13], 1: [5, 6], 2: [5, 7],
+                                         5: [5], 6: [5, 6, 7], 7: [7, 5], 9: [11, 12, 13], 10: [11, 13],
+                                         11: [11], 12: [11, 12, 13], 13: [11, 13]}
+
+        else:
+            self.node_mig_dict_unforced = {0: [0, 1, 2, 5, 9, 10, 11], 1: [1, 2, 5], 2: [2, 5],
+                                           5: [5], 6: [5, 6, 7], 7: [7, 5],
+                                       9: [9, 10, 11], 10: [10, 11], 11: [11], 12: [11, 12, 13],
+                                       13: [11, 13]}
+            self.node_mig_dict_forced = {0: [5, 11], 1: [5], 2: [5], 5: [5],
+                                     6: [5, 6, 7], 7: [7, 5], 9: [11], 10: [11], 11: [11],
+                                     12: [11,12,13], 13: [11,13]}
+
         self.action_list = []
         self.pen_curve = pen_curve
         self.path_list = []
@@ -98,16 +122,17 @@ def run_expecti_residential(inputfile, startyear, maxyear, penetration_curve,dep
         filename = inputfile
         # TODO: BUILD TREE COMES HERE
         expectiTreeLikely = ExpectiNPV(filename,start, end,penetration_curve,depth_all_100,only_ftth)
+        # TODO: BUILD PROBABLILTY HERE
+
         time_interval_cf,next_tech,intermediate_path_list = expectiTreeLikely.build_residential_tree(start_node_tech,0.1)
         tech_changes_at_intervals.append(next_tech)
         action_list = expectiTreeLikely.action_list
         t2 = time.time()
-        action_list_new = []
         final_migration_year = startyear
-        if len(action_list) is not maxyear - startyear:
-            action_list_new = [expectiTreeLikely.techindex[tech] for tech in action_list]
+        action_list_new = [expectiTreeLikely.techindex[tech] for tech in action_list]
+        if len(action_list) != (2038 - startyear+1):
             last_tech = expectiTreeLikely.techindex[action_list[-1]]
-            for year in range(startyear + len(action_list), maxyear):
+            for year in range(startyear + len(action_list), 2038):
                 action_list_new.append(last_tech)
 
         time_taken = t2-t1
@@ -121,6 +146,7 @@ def run_expecti_residential(inputfile, startyear, maxyear, penetration_curve,dep
         current_tech = 0
         mig_years_dict = {}
         for year_index in range(0,len(intermediate_path_list)):
+
             if intermediate_path_list[year_index] != current_tech:
                 mig_years_dict[startyear+year_index] = expectiTreeLikely.techindex[intermediate_path_list[year_index]]
 
@@ -178,9 +204,9 @@ if __name__ == "__main__":
 
     # Dump to json file
     output_parser.dump_to_json(output_parser.is_ftth_dict)
-    # grapher = OutputGraphs(os.path.join(os.getcwd(),'..'))
-    # grapher.create_npv_graph(0)
-    # grapher.create_migration_steps(0)
+    grapher = OutputGraphs(os.path.join(os.getcwd(), '..'))
+    grapher.create_npv_graph(0)
+    grapher.create_migration_steps(0)
 
 
 
