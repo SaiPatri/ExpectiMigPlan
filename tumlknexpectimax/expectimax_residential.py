@@ -49,7 +49,7 @@ class ExpectiNPV:
 
         self.START_YEAR = START_YEAR
         self.MAX_YEAR = MAX_YEAR
-        """
+
         if not only_ftth:
             
             self.node_mig_dict_unforced = {0: [0,1,2,3,4,5,6,7,8,9,10,11,12,13], 1: [1, 2, 5, 6, 7], 2: [2, 5, 7],
@@ -90,6 +90,7 @@ class ExpectiNPV:
             self.node_mig_dict_forced = {0: [5, 11], 1: [5], 2: [5], 5: [5],
                                      6: [5, 6, 7], 7: [7, 5], 9: [11], 10: [11], 11: [11],
                                      12: [11,12,13], 13: [11,13]}
+        """
 
         self.action_list = []
         self.pen_curve = pen_curve
