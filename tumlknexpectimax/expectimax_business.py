@@ -108,12 +108,11 @@ def run_expecti_business(inputfile, startyear, maxyear, penetration_curve,depth_
         tech_changes_at_intervals.append(next_tech)
         action_list = expectiTreeLikely.action_list
         t2 = time.time()
-        action_list_new = []
         final_migration_year = startyear
-        if len(action_list) is not maxyear - startyear:
-            action_list_new = [expectiTreeLikely.techindex[tech] for tech in action_list]
+        action_list_new = [expectiTreeLikely.techindex[tech] for tech in action_list]
+        if len(action_list) !=(2038-startyear+1):
             last_tech = expectiTreeLikely.techindex[action_list[-1]]
-            for year in range(startyear + len(action_list), maxyear):
+            for year in range(startyear + len(action_list), 2038):
                 action_list_new.append(last_tech)
 
         time_taken = t2-t1
