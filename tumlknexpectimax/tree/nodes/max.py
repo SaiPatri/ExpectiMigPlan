@@ -44,7 +44,7 @@ class MaxNode:
 
         pass
 
-    def maximizer(self, type, node_technology,depth,children,churn_rate,prob_churn):
+    def maximizer(self, type, node_technology,depth,children,churn_rate,mean_prob):
         """
 
         :param type:
@@ -98,9 +98,9 @@ class MaxNode:
                         capex_rev = -self.mig_matrix[self.techindex[child_technology]][self.techindex[node_technology]]
 
                 if type is 'MAXNOCHURN':
-                    child_details = self.next_chancer.chancer(child_technology, depth+1, current_child_list, prob_churn)
+                    child_details = self.next_chancer.chancer(child_technology, depth+1, current_child_list, mean_prob)
                 else:
-                    child_details = self.next_chancer.chancer(child_technology, depth+1, current_child_list, prob_churn)
+                    child_details = self.next_chancer.chancer(child_technology, depth+1, current_child_list, mean_prob)
 
                 future_cf = child_details[0]
                 if isinstance(child_details[1:][0],list):

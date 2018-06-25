@@ -1,5 +1,6 @@
 import copy
 import tumlknexpectimax.tree.nodes.max as max1
+import numpy as np
 
 class TreeBuilder:
     """
@@ -35,19 +36,20 @@ class TreeBuilder:
                 tree_list = tree_list.pop(-1)
                 maxdepth+=1
 
-    def build_mini_tree(self,action_list,node_mig_dict,start_tech,churn_prob, pen_curve):
+    def build_mini_tree(self,action_list,node_mig_dict,start_tech,mean_prob, pen_curve):
         # start_tech = 1
         # TODO: import tree.build_tree
         maxim = max1.MaxNode(self.node_mig_dict_forced, self.node_mig_dict_unforced,self.capex_values,self.tech_index, self.mig_matrix,
                  self.pen_curve, self.path_list, self.forcing_depth, self.START_YEAR, self.MAX_YEAR,self.pv)
 
-        expectidetails_churn = maxim.maximizer('MAXCHURN',start_tech,0,node_mig_dict[start_tech],0.1,churn_prob)
+        expectidetails_churn = maxim.maximizer('MAXCHURN',start_tech,0,node_mig_dict[start_tech],0.1,mean_prob)
         max_cf_churn = expectidetails_churn[0]
         child_list_cfchurn = expectidetails_churn[1:]
-        expectidetails_nochurn = maxim.maximizer('MAXNOCHURN',start_tech,0,node_mig_dict[start_tech],0.0,churn_prob)
+        expectidetails_nochurn = maxim.maximizer('MAXNOCHURN',start_tech,0,node_mig_dict[start_tech],0.0,mean_prob)
         max_cf_nochurn = expectidetails_nochurn[0]
         child_list_cfnochurn = expectidetails_nochurn[1:]
-        intermediate_cf = churn_prob*max_cf_churn + (1-churn_prob)*max_cf_nochurn
+        this_year_churn_prob = np.random.normal(mean_prob,0.05)
+        intermediate_cf = this_year_churn_prob*max_cf_churn + (1-this_year_churn_prob)*max_cf_nochurn
         # print('------------Penetration Curve: ',pen_curve, '-----------------')
         # print('On the topmost node, expected cashflow with churn is', max_cf_churn)
         # print('On the topmost node, expected cashflow without churn is', max_cf_nochurn)

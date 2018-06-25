@@ -8,6 +8,7 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 import sys
+from collections import OrderedDict
 
 class OutputGraphs:
     """
@@ -192,9 +193,8 @@ class OutputGraphs:
                 axarr[x_col,y_col].set_ylabel('Average Datarate in Mbps')
                 axarr[x_col,y_col].grid(True,which='major',axis='x',color='blue',linestyle='--')
                 text_to_add = ''
-                sorted_keys = mig_years.keys()
-                sorted_keys.sort()
-                for key in sorted_keys:
+                sorted_mig_dict = OrderedDict(sorted(mig_years.items()))
+                for key,value in sorted_mig_dict.items():
                     text_to_add += key+':  '+mig_years[key]+'\n'
                 axarr[x_col,y_col].text(0.5,0.04,text_to_add,va='bottom', ha='center', fontsize=9,weight='semibold',transform=axarr[x_col,y_col].transAxes)
                 axarr[x_col,y_col].legend(loc='center right')

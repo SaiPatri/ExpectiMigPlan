@@ -1,4 +1,5 @@
 import copy
+import numpy as np
 
 
 
@@ -50,7 +51,7 @@ class ChanceNode:
                 lst = lst.pop(-1)
                 maxdepth+=1
 
-    def chancer(self, node_technology,depth,children,prob_churn):
+    def chancer(self, node_technology,depth,children,mean_prob):
         """
 
         :param type:
@@ -61,7 +62,7 @@ class ChanceNode:
         :param prob_churn:
         :return:
         """
-
+        prob_churn = np.random.normal(mean_prob,0.05)
         child_details_churn = self.current_year_maxer.maximizer('MAXCHURN',node_technology,depth, children,0.1,prob_churn)
         chance_cf_churn = child_details_churn[0]
         child_list1 = child_details_churn[1:]
