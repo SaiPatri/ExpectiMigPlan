@@ -62,7 +62,7 @@ class ChanceNode:
         :param prob_churn:
         :return:
         """
-        prob_churn = np.random.normal(mean_prob,0.05)
+        prob_churn = np.random.normal(mean_prob,0.03)
         child_details_churn = self.current_year_maxer.maximizer('MAXCHURN',node_technology,depth, children,0.1,prob_churn)
         chance_cf_churn = child_details_churn[0]
         child_list1 = child_details_churn[1:]

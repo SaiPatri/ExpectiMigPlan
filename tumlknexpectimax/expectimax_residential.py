@@ -99,7 +99,7 @@ class ExpectiNPV:
         self.disc_rate = 0.1
         self.present_value_gen = GeneratePresentValue('residential',self.pen_curve,self.disc_rate,self.opex_values)
 
-    def build_residential_tree(self, start_node_tech, prob):
+    def build_residential_tree(self, start_node_tech, mean_prob):
 
         treeBuild = TreeBuilder(self.node_mig_dict_forced,self.node_mig_dict_unforced,self.capex_values_dict,
                                      self.techindex,self.mig_matrix,self.pen_curve,self.path_list,
@@ -107,7 +107,7 @@ class ExpectiNPV:
 
         time_interval_cf,next_tech,intermediate_path_dict = treeBuild.build_mini_tree(self.action_list,
                                                                                            self.node_mig_dict_unforced,
-                                                                                           start_node_tech,prob,
+                                                                                           start_node_tech,mean_prob,
                                                                                            self.pen_curve)
         return time_interval_cf,next_tech,intermediate_path_dict
 

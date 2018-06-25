@@ -1,9 +1,9 @@
 
 import math
-
+from collections import OrderedDict
 class GeneratePresentValue:
 
-    def __init__(self,type,pen_curve,irr,opex):
+    def __init__(self,type,pen_curve,irr,capex,opex):
         """
         Generate present value with and without churn
         :param type:
@@ -20,6 +20,7 @@ class GeneratePresentValue:
         self.its_yearly = 150*12/50.0
         self.pen_curve = pen_curve
         self.irr = irr
+        self.capex = capex
         self.opex = opex
         self.no_its_demands = 8
         self.techindex_dict = {0: u'ADSL', 1: u'FTTC_GPON_25', 2: u'FTTB_XGPON_50', 3: u'FTTB_UDWDM_50',
@@ -127,4 +128,61 @@ class GeneratePresentValue:
         pv_no_churn = current_cashflow * rate
 
         return pv_no_churn
+
+    def rank_child_nodes(self,current_node,complete_child_list):
+        """
+        Sends the best 4 nodes
+        :param type:
+        :param current_node:
+        :param complete_child_list:
+        :return:
+        """
+        scaling_factor = 0.01
+        if self.type == 'residential':
+            no_hh = 29262
+            revenue = self.rev_dict_residential
+        elif self.type == 'business':
+            no_hh = math.ceil(0.93*4877*6)+math.ceil(0.07*4877*6)
+            revenue = self.rev_dict_business
+        else:
+            no_hh = math.ceil(0.93*(1.1*4877)*6)+math.ceil(0.07*4877*6)
+            revenue = self.rev_dict_business
+
+        current_capex = self.capex['Total Cost'][self.techindex_dict[current_node]]
+        current_cost_hh = current_capex/float(no_hh)
+        child_dict = {} # Child node and rank
+        for child in complete_child_list:
+            child_dict[child] = 1e10
+        child_dict_ordered = OrderedDict(child_dict.items())
+        for child in complete_child_list:
+            child_cost_hh = self.capex['Total Cost'][self.techindex_dict[child]]/float(no_hh)
+            if child_cost_hh-current_cost_hh > 100:
+                continue
+            else:
+                penalty = scaling_factor*math.pow(child_cost_hh-current_cost_hh,2)  # square for severe penalty
+                child_dict_ordered[child] = (child_cost_hh/float(revenue[child]))+penalty
+        # find smallest 4 child tech
+
+        # first find the smallest technology
+        best_children = []
+        while True:
+            if len(best_children) == 4:
+                break
+            elif not child_dict_ordered:
+                break
+            else:
+                #get minimum key value
+                best_children.append(min(child_dict_ordered, key=child_dict_ordered.get))
+                #delete minimum value from dict
+                child_dict_ordered.pop(min(child_dict_ordered, key=child_dict_ordered.get))
+
+        return best_children
+
+
+
+
+
+
+
+
 
