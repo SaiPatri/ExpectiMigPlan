@@ -75,7 +75,7 @@ class ExpectiNPVITSBrownfield:
         self.path_list = []
         self.force_depth = depth_100
         self.disc_rate = 0.1
-        self.present_value_gen = GeneratePresentValue('its',self.pen_curve,self.disc_rate,self.opex_values)
+        self.present_value_gen = GeneratePresentValue('its',self.pen_curve,self.disc_rate,self.capex_values_dict,self.opex_values)
 
     def build_its_tree(self, start_node_tech, mean_prob):
 
@@ -105,9 +105,9 @@ def run_expecti_its(inputfile, startyear, maxyear, penetration_curve,depth_all_1
         tech_changes_at_intervals.append(next_tech)
         action_list = expectiTreeLikely.action_list
         t2 = time.time()
-        action_list_new = []
         final_migration_year = startyear
-        if len(action_list) is not maxyear - startyear:
+        action_list_new = [expectiTreeLikely.techindex[tech] for tech in action_list]
+        if len(action_list) !=(2038-startyear+1):
             action_list_new = [expectiTreeLikely.techindex[tech] for tech in action_list]
             last_tech = expectiTreeLikely.techindex[action_list[-1]]
             for year in range(startyear + len(action_list), maxyear):

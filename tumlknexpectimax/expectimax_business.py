@@ -105,7 +105,6 @@ def run_expecti_business(inputfile, startyear, maxyear, penetration_curve,depth_
         # TODO: BUILD TREE COMES HERE
         expectiTreeLikely = ExpectiNPVBusiness(filename,start, end,penetration_curve,depth_all_100,only_ftth)
         time_interval_cf,next_tech,intermediate_path_list = expectiTreeLikely.build_business_tree(start_node_tech,0.1)
-
         tech_changes_at_intervals.append(next_tech)
         action_list = expectiTreeLikely.action_list
         t2 = time.time()

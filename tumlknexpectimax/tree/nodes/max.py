@@ -94,7 +94,7 @@ class MaxNode:
                 current_child_list = self.node_mig_dict_forced[node_technology]
             else:
                 current_child_list = self.node_mig_dict_unforced[node_technology]
-            if depth > 8:
+            if depth > 4:
                 current_child_list = self.find_best_children(node_technology,current_child_list)
             for child_technology in current_child_list:
 

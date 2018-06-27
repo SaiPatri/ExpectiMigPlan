@@ -22,7 +22,7 @@ class GeneratePresentValue:
         self.irr = irr
         self.capex = capex
         self.opex = opex
-        self.no_its_demands = 8
+        self.no_its_demands = 12
         self.techindex_dict = {0: u'ADSL', 1: u'FTTC_GPON_25', 2: u'FTTB_XGPON_50', 3: u'FTTB_UDWDM_50',
                           4: u'FTTH_UDWDM_100', 5: u'FTTH_XGPON_100', 6: u'FTTC_GPON_100',
                           7: u'FTTB_XGPON_100', 8: u'FTTB_UDWDM_100', 9: u'FTTC_Hybridpon_25',
@@ -107,12 +107,12 @@ class GeneratePresentValue:
             residential_customers = math.ceil(no_customers - business_customers)
             business_cust = int(business_customers)
             residential_cust = int(residential_customers)
-            if index < 7:
+            if index < 10:
 
                 yearly_rev = residential_cust * self.rev_dict_residential[
                     tech_index] + business_cust * self.rev_dict_business[tech_index]
 
-            elif index == 7:
+            elif index == 10:
 
                 yearly_rev = residential_cust * self.rev_dict_residential[
                     tech_index] + business_cust * self.rev_dict_business[
@@ -166,7 +166,7 @@ class GeneratePresentValue:
         # first find the smallest technology
         best_children = []
         while True:
-            if len(best_children) == 4:
+            if len(best_children) == 2:
                 break
             elif not child_dict_ordered:
                 break

@@ -128,10 +128,10 @@ class OutputGraphs:
         y_col = 0
         mig_years = {}
         START_YEAR = 2018
-        END_YEAR = 2030
+        END_YEAR = 2036
         x = np.arange(START_YEAR,END_YEAR,1)
-        x0 = x.copy()-0.2
-        x2 = x.copy()+0.2
+        x0 = x.copy()-0.1
+        x2 = x.copy()+0.1
         f, axarr = plt.subplots(2, 2)
         plt.suptitle('Average datarates to customers during 15 year migration window')
         mig_tree_cons = []
@@ -176,8 +176,8 @@ class OutputGraphs:
                 mig_tree_aggr = self.len_check(mig_tree_aggr,START_YEAR,END_YEAR)
 
                 axarr[x_col,y_col].step(x0,mig_tree_cons, color='red',label = 'Conservative Penetration')
-                axarr[x_col,y_col].step(x,[val+2 for val in mig_tree_likely], color='blue',label = 'Likely Penetration')
-                axarr[x_col,y_col].step(x2,[val+4 for val in mig_tree_aggr], color='green',label = 'Aggressive Penetration')
+                axarr[x_col,y_col].step(x,[val+1 for val in mig_tree_likely], color='blue',label = 'Likely Penetration')
+                axarr[x_col,y_col].step(x2,[val+2 for val in mig_tree_aggr], color='green',label = 'Aggressive Penetration')
                 if index==0:
                     title = '100 Mbps provided by FTTC/FTTB/FTTH\nMigrations to 100 Mbps are not forced'
                 elif index == 1:
@@ -188,7 +188,7 @@ class OutputGraphs:
                     title = '100 Mbps provided by only FTTH\nMigrations to 100 Mbps are forced at year 2025'
 
                 axarr[x_col, y_col].set_title(title)
-                axarr[x_col,y_col].set_xlim(2017,2033,1)
+                axarr[x_col,y_col].set_xlim(2017,2035,1)
                 axarr[x_col,y_col].set_ylim(0,120)
                 axarr[x_col,y_col].set_ylabel('Average Datarate in Mbps')
                 axarr[x_col,y_col].grid(True,which='major',axis='x',color='blue',linestyle='--')
@@ -196,7 +196,7 @@ class OutputGraphs:
                 sorted_mig_dict = OrderedDict(sorted(mig_years.items()))
                 for key,value in sorted_mig_dict.items():
                     text_to_add += key+':  '+mig_years[key]+'\n'
-                axarr[x_col,y_col].text(0.5,0.04,text_to_add,va='bottom', ha='center', fontsize=9,weight='semibold',transform=axarr[x_col,y_col].transAxes)
+                axarr[x_col,y_col].text(0.5,0.05,text_to_add,va='bottom', ha='center', fontsize=9,weight='semibold',transform=axarr[x_col,y_col].transAxes)
                 axarr[x_col,y_col].legend(loc='center right')
                 index += 1
                 y_col += 1
