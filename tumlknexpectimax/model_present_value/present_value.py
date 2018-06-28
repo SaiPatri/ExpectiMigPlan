@@ -22,7 +22,7 @@ class GeneratePresentValue:
         self.irr = irr
         self.capex = capex
         self.opex = opex
-        self.no_its_demands = 12
+        self.no_its_demands = 8
         self.techindex_dict = {0: u'ADSL', 1: u'FTTC_GPON_25', 2: u'FTTB_XGPON_50', 3: u'FTTB_UDWDM_50',
                           4: u'FTTH_UDWDM_100', 5: u'FTTH_XGPON_100', 6: u'FTTC_GPON_100',
                           7: u'FTTB_XGPON_100', 8: u'FTTB_UDWDM_100', 9: u'FTTC_Hybridpon_25',
@@ -49,7 +49,7 @@ class GeneratePresentValue:
 
         elif self.type == 'business':
             # Since 7% of customers are business
-            business_customers = math.floor(0.07*no_customers)
+            business_customers = math.floor(0.1*no_customers)
             residential_customers = math.ceil(no_customers-business_customers)
             post_churn_business_cust = int(business_customers-churn_rate*business_customers)
             post_churn_residential_cust = int(residential_customers-churn_rate*residential_customers)
@@ -57,7 +57,7 @@ class GeneratePresentValue:
                          post_churn_business_cust*self.rev_dict_business[tech_index]
             current_cashflow = yearly_rev-current_opex
         else:
-            business_customers = math.floor(0.07 * no_customers)
+            business_customers = math.floor(0.1 * no_customers)
             residential_customers = math.ceil(no_customers - business_customers)
             post_churn_business_cust = int(business_customers - churn_rate * business_customers)
             post_churn_residential_cust = int(residential_customers - churn_rate * residential_customers)
@@ -95,7 +95,7 @@ class GeneratePresentValue:
 
         elif self.type == 'business':
             # Since 7% of customers are business
-            business_customers = math.floor(0.07 * no_customers)
+            business_customers = math.floor(0.1 * no_customers)
             residential_customers = math.ceil(no_customers - business_customers)
             business_cust = int(business_customers)
             residential_cust = int(residential_customers)
@@ -103,7 +103,7 @@ class GeneratePresentValue:
                          business_cust * self.rev_dict_business[tech_index]
             current_cashflow = yearly_rev - current_opex
         else:
-            business_customers = math.floor(0.07 * no_customers)
+            business_customers = math.floor(0.1 * no_customers)
             residential_customers = math.ceil(no_customers - business_customers)
             business_cust = int(business_customers)
             residential_cust = int(residential_customers)
@@ -142,10 +142,10 @@ class GeneratePresentValue:
             no_hh = 29262
             revenue = self.rev_dict_residential
         elif self.type == 'business':
-            no_hh = math.ceil(0.93*4877*6)+math.ceil(0.07*4877*6)
+            no_hh = math.ceil(0.9*4877*6)+math.ceil(0.1*4877*6)
             revenue = self.rev_dict_business
         else:
-            no_hh = math.ceil(0.93*(1.1*4877)*6)+math.ceil(0.07*4877*6)
+            no_hh = math.ceil(0.9*(4877)*6)+math.ceil(0.1*4877*6)+self.no_its_demands
             revenue = self.rev_dict_business
 
         current_capex = self.capex['Total Cost'][self.techindex_dict[current_node]]
