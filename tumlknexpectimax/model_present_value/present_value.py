@@ -166,7 +166,7 @@ class GeneratePresentValue:
         # first find the smallest technology
         best_children = []
         while True:
-            if len(best_children) == 2:
+            if len(best_children) == 3:
                 break
             elif not child_dict_ordered:
                 break
