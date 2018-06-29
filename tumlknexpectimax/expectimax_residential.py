@@ -97,7 +97,7 @@ class ExpectiNPV:
         self.path_list = []
         self.force_depth = depth_100
         self.disc_rate = 0.1
-        self.present_value_gen = GeneratePresentValue('residential',self.pen_curve,self.disc_rate,self.opex_values)
+        self.present_value_gen = GeneratePresentValue('residential',self.pen_curve,self.disc_rate,self.capex_values_dict,self.opex_values)
 
     def build_residential_tree(self, start_node_tech, mean_prob):
 

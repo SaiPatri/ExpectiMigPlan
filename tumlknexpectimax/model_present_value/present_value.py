@@ -14,10 +14,10 @@ class GeneratePresentValue:
         :param irr:
         """
         self.type = type
-        self.rev_dict_residential = {0:3.6,1:7.2,2:9.6,3:9.6,4:12,5:12,6:12,7:12,8:12,9:7.2,10:9.6,11:12,12:12,13:12}
-        self.rev_dict_business = {0:3.6,1:12,2:24,3:24,4:36,5:36,6:36,7:36,8:36,9:12,10:24,11:36,12:36,13:36}
-        self.its_onetime = 1600*12/50.0
-        self.its_yearly = 500*12/50.0
+        self.rev_dict_residential = {0:3.6,1:8.4,2:9.6,3:9.6,4:15.36,5:15.36,6:15.36,7:15.36,8:15.36,9:8.4,10:9.6,11:15.36,12:15.36,13:15.36}
+        self.rev_dict_business = {0:3.6,1:15.36,2:31,3:31,4:60,5:60,6:60,7:60,8:60,9:15.36,10:31,11:60,12:60,13:60}
+        self.its_onetime = 5000*12/50.0
+        self.its_yearly = 1000*12/50.0
         self.pen_curve = pen_curve
         self.irr = irr
         self.capex = capex
@@ -61,11 +61,11 @@ class GeneratePresentValue:
             residential_customers = math.ceil(no_customers - business_customers)
             post_churn_business_cust = int(business_customers - churn_rate * business_customers)
             post_churn_residential_cust = int(residential_customers - churn_rate * residential_customers)
-            if index < 7:
+            if index < 5:
                 yearly_rev = post_churn_residential_cust * self.rev_dict_residential[tech_index] \
                              + post_churn_business_cust * self.rev_dict_business[tech_index]
 
-            elif index == 7:
+            elif index == 5:
 
                 yearly_rev = post_churn_residential_cust * self.rev_dict_residential[tech_index] + \
                              post_churn_business_cust * self.rev_dict_business[tech_index]+ \
@@ -161,7 +161,7 @@ class GeneratePresentValue:
             else:
                 penalty = scaling_factor*math.pow(child_cost_hh-current_cost_hh,2)  # square for severe penalty
                 child_dict_ordered[child] = (child_cost_hh/float(revenue[child]))+penalty
-        # find smallest 4 child tech
+        # find smallest 3 child tech
 
         # first find the smallest technology
         best_children = []

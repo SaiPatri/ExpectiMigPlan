@@ -1,6 +1,6 @@
 import copy
 import tumlknexpectimax.tree.nodes.max as max1
-import numpy as np
+
 
 class TreeBuilder:
     """
@@ -48,7 +48,7 @@ class TreeBuilder:
         expectidetails_nochurn = maxim.maximizer('MAXNOCHURN',start_tech,0,node_mig_dict[start_tech],0.0,mean_prob)
         max_cf_nochurn = expectidetails_nochurn[0]
         child_list_cfnochurn = expectidetails_nochurn[1:]
-        this_year_churn_prob = np.random.normal(mean_prob,0.03)
+        this_year_churn_prob = 0.1 # np.random.normal(mean_prob,0.03)
         intermediate_cf = this_year_churn_prob*max_cf_churn + (1-this_year_churn_prob)*max_cf_nochurn
         # print('------------Penetration Curve: ',pen_curve, '-----------------')
         # print('On the topmost node, expected cashflow with churn is', max_cf_churn)
