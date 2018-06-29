@@ -16,8 +16,8 @@ class GeneratePresentValue:
         self.type = type
         self.rev_dict_residential = {0:3.6,1:7.2,2:9.6,3:9.6,4:12,5:12,6:12,7:12,8:12,9:7.2,10:9.6,11:12,12:12,13:12}
         self.rev_dict_business = {0:3.6,1:12,2:24,3:24,4:36,5:36,6:36,7:36,8:36,9:12,10:24,11:36,12:36,13:36}
-        self.its_onetime = 800*12/50.0
-        self.its_yearly = 150*12/50.0
+        self.its_onetime = 1600*12/50.0
+        self.its_yearly = 500*12/50.0
         self.pen_curve = pen_curve
         self.irr = irr
         self.capex = capex
