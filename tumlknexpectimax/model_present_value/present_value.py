@@ -107,12 +107,12 @@ class GeneratePresentValue:
             residential_customers = math.ceil(no_customers - business_customers)
             business_cust = int(business_customers)
             residential_cust = int(residential_customers)
-            if index < 10:
+            if index < 5:
 
                 yearly_rev = residential_cust * self.rev_dict_residential[
                     tech_index] + business_cust * self.rev_dict_business[tech_index]
 
-            elif index == 10:
+            elif index == 5:
 
                 yearly_rev = residential_cust * self.rev_dict_residential[
                     tech_index] + business_cust * self.rev_dict_business[
