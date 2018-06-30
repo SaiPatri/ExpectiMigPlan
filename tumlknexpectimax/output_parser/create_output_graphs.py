@@ -5,10 +5,12 @@ Creates the following graphs:
 """
 import json
 import os
-import numpy as np
-import matplotlib.pyplot as plt
 import sys
 from collections import OrderedDict
+
+import matplotlib.pyplot as plt
+import numpy as np
+
 
 class OutputGraphs:
     """

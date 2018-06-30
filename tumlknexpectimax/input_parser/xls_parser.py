@@ -5,8 +5,9 @@ Author: Sai Kireet Patri
 Copyright: Technische Universitaet Muenchen
 """
 
-import pandas as pd
 import os
+
+import pandas as pd
 
 
 class Parser:
