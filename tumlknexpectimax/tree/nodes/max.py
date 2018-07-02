@@ -22,7 +22,7 @@ class MaxNode:
         self.path_list = path_list
         self.force_depth = int(forcing_depth)
         self.pv = pv
-
+        """
         self.cust_dict = {
             'Cons PV': [96, 128, 172, 233, 318, 435, 594, 813, 1109, 1509, 2044, 2751, 3672, 4849, 6311, 8068, 10087,
                         12287, 14535, 16674, 18559],
@@ -40,7 +40,7 @@ class MaxNode:
             'Aggr PV': [208, 387, 739, 1428, 2771, 5338, 10058, 18073, 29701, 42126, 49586, 51184, 51258, 51269, 51276,
                         51280, 51282, 51283,51284, 51285, 51285]
         }
-        """
+
 
         self.next_terminal = None
         self.next_chancer = None
@@ -76,13 +76,13 @@ class MaxNode:
             self.next_terminal = TerminalNode(self.pen_curve,self.START_YEAR,self.cust_dict[self.pen_curve],self.pv)
             if depth < 10:
                 capex_rev_terminal = -(self.capex_values_dict['Electronic Cost'][self.techindex[node_technology]])
-            return [sum([(1-np.random.normal(mean_prob,0.03))*self.next_terminal.terminal_node(node_technology,dep,churn_rate) for dep in range(depth, 2038-self.START_YEAR)])+capex_rev_terminal, depth, node_technology,'NONE', []]    # Returns the value of the PV cashflow along with a list of the [depth, technology_of_terminal, child_of_terminal, previous_list]
+            return [sum([(1-mean_prob)*self.next_terminal.terminal_node(node_technology,dep,churn_rate) for dep in range(depth, 2038-self.START_YEAR)])+capex_rev_terminal, depth, node_technology,'NONE', []]    # Returns the value of the PV cashflow along with a list of the [depth, technology_of_terminal, child_of_terminal, previous_list]
         elif node_technology in [4, 5, 6, 7, 8, 11, 12, 13]:
             # TODO: Need to check here if we can try to find the sum value of the remainder years and whether it affects our decision
             self.next_terminal = TerminalNode(self.pen_curve,self.START_YEAR,self.cust_dict[self.pen_curve],self.pv)
             if depth < 10:
                 capex_rev_terminal = -(self.capex_values_dict['Electronic Cost'][self.techindex[node_technology]])
-            return [sum([(1-np.random.normal(mean_prob,0.03))*self.next_terminal.terminal_node(node_technology,dep,churn_rate) for dep in range(depth, 2038-self.START_YEAR)])+capex_rev_terminal, depth, node_technology,'NONE', []]
+            return [sum([(1-mean_prob)*self.next_terminal.terminal_node(node_technology,dep,churn_rate) for dep in range(depth, 2038-self.START_YEAR)])+capex_rev_terminal, depth, node_technology,'NONE', []]
         else:
             self.next_chancer = ChanceNode(self.node_mig_dict_forced, self.node_mig_dict_unforced,
                                            self.capex_values_dict, self.techindex, self.mig_matrix, self.pen_curve,

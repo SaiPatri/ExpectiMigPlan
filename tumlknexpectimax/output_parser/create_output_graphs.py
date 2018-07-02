@@ -18,8 +18,8 @@ class OutputGraphs:
     """
     def __init__(self,json_directory):
         self.json_dir = json_directory
-        self.residential_json_file = "results_expectimax_residential_15yrs_new_opex.json"
-        self.business_json_file = "results_expectimax_business_15yrs_new_opex.json"
+        self.residential_json_file = "results_expectimax_residential.json"
+        self.business_json_file = "results_expectimax_business.json"
         self.its_json_file = "results_expectimax_its.json"
         pass
 
