@@ -1,0 +1,282 @@
+[
+    {
+        "depth_to_force_100mbps_migrations": 25, 
+        "migration_info": {
+            "Aggr PV": {
+                "total_time": 49.03999996185303, 
+                "mig_years": {
+                    "2025": "FTTH_UDWDM_100", 
+                    "2023": "FTTB_UDWDM_50"
+                }, 
+                "final_data_rate": 100, 
+                "mig_path": [
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "FTTB_UDWDM_50", 
+                    "FTTB_UDWDM_50", 
+                    "FTTH_UDWDM_100", 
+                    "FTTH_UDWDM_100", 
+                    "FTTH_UDWDM_100"
+                ], 
+                "NPV_expected": 1815094.6382928935, 
+                "year_to_final_tech": 2025
+            }, 
+            "Likely PV": {
+                "total_time": 49.19099998474121, 
+                "mig_years": {
+                    "2025": "FTTH_UDWDM_100"
+                }, 
+                "final_data_rate": 100, 
+                "mig_path": [
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "FTTH_UDWDM_100", 
+                    "FTTH_UDWDM_100", 
+                    "FTTH_UDWDM_100"
+                ], 
+                "NPV_expected": 321723.67283232854, 
+                "year_to_final_tech": 2025
+            }, 
+            "Cons PV": {
+                "total_time": 49.710999965667725, 
+                "mig_years": {
+                    "2025": "FTTH_UDWDM_100"
+                }, 
+                "final_data_rate": 100, 
+                "mig_path": [
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "FTTH_UDWDM_100", 
+                    "FTTH_UDWDM_100", 
+                    "FTTH_UDWDM_100"
+                ], 
+                "NPV_expected": 133885.11742840533, 
+                "year_to_final_tech": 2025
+            }
+        }, 
+        "is_ftth_and_force": false
+    }, 
+    {
+        "depth_to_force_100mbps_migrations": 25, 
+        "migration_info": {
+            "Aggr PV": {
+                "total_time": 31.430999994277954, 
+                "mig_years": {
+                    "2025": "FTTH_UDWDM_100", 
+                    "2023": "FTTB_UDWDM_50"
+                }, 
+                "final_data_rate": 100, 
+                "mig_path": [
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "FTTB_UDWDM_50", 
+                    "FTTB_UDWDM_50", 
+                    "FTTH_UDWDM_100", 
+                    "FTTH_UDWDM_100", 
+                    "FTTH_UDWDM_100"
+                ], 
+                "NPV_expected": 1815094.6382928935, 
+                "year_to_final_tech": 2025
+            }, 
+            "Likely PV": {
+                "total_time": 30.917999982833862, 
+                "mig_years": {
+                    "2025": "FTTH_UDWDM_100"
+                }, 
+                "final_data_rate": 100, 
+                "mig_path": [
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "FTTH_UDWDM_100", 
+                    "FTTH_UDWDM_100", 
+                    "FTTH_UDWDM_100"
+                ], 
+                "NPV_expected": 321723.67283232854, 
+                "year_to_final_tech": 2025
+            }, 
+            "Cons PV": {
+                "total_time": 31.08299994468689, 
+                "mig_years": {
+                    "2025": "FTTH_UDWDM_100"
+                }, 
+                "final_data_rate": 100, 
+                "mig_path": [
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "FTTH_UDWDM_100", 
+                    "FTTH_UDWDM_100", 
+                    "FTTH_UDWDM_100"
+                ], 
+                "NPV_expected": 133885.11742840533, 
+                "year_to_final_tech": 2025
+            }
+        }, 
+        "is_ftth_and_force": true
+    }, 
+    {
+        "depth_to_force_100mbps_migrations": 7, 
+        "migration_info": {
+            "Aggr PV": {
+                "total_time": 2.890000104904175, 
+                "mig_years": {
+                    "2025": "FTTH_UDWDM_100", 
+                    "2023": "FTTB_UDWDM_50"
+                }, 
+                "final_data_rate": 100, 
+                "mig_path": [
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "FTTB_UDWDM_50", 
+                    "FTTB_UDWDM_50", 
+                    "FTTH_UDWDM_100", 
+                    "FTTH_UDWDM_100", 
+                    "FTTH_UDWDM_100"
+                ], 
+                "NPV_expected": 1815094.6382928935, 
+                "year_to_final_tech": 2025
+            }, 
+            "Likely PV": {
+                "total_time": 2.9099998474121094, 
+                "mig_years": {
+                    "2025": "FTTH_UDWDM_100"
+                }, 
+                "final_data_rate": 100, 
+                "mig_path": [
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "FTTH_UDWDM_100", 
+                    "FTTH_UDWDM_100", 
+                    "FTTH_UDWDM_100"
+                ], 
+                "NPV_expected": 321723.67283232854, 
+                "year_to_final_tech": 2025
+            }, 
+            "Cons PV": {
+                "total_time": 2.9000000953674316, 
+                "mig_years": {
+                    "2025": "FTTH_UDWDM_100"
+                }, 
+                "final_data_rate": 100, 
+                "mig_path": [
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "FTTH_UDWDM_100", 
+                    "FTTH_UDWDM_100", 
+                    "FTTH_UDWDM_100"
+                ], 
+                "NPV_expected": 133885.11742840533, 
+                "year_to_final_tech": 2025
+            }
+        }, 
+        "is_ftth_and_force": false
+    }, 
+    {
+        "depth_to_force_100mbps_migrations": 7, 
+        "migration_info": {
+            "Aggr PV": {
+                "total_time": 1.5859999656677246, 
+                "mig_years": {
+                    "2025": "FTTH_UDWDM_100", 
+                    "2023": "FTTB_UDWDM_50"
+                }, 
+                "final_data_rate": 100, 
+                "mig_path": [
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "FTTB_UDWDM_50", 
+                    "FTTB_UDWDM_50", 
+                    "FTTH_UDWDM_100", 
+                    "FTTH_UDWDM_100", 
+                    "FTTH_UDWDM_100"
+                ], 
+                "NPV_expected": 1815094.6382928935, 
+                "year_to_final_tech": 2025
+            }, 
+            "Likely PV": {
+                "total_time": 1.5540001392364502, 
+                "mig_years": {
+                    "2025": "FTTH_UDWDM_100"
+                }, 
+                "final_data_rate": 100, 
+                "mig_path": [
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "FTTH_UDWDM_100", 
+                    "FTTH_UDWDM_100", 
+                    "FTTH_UDWDM_100"
+                ], 
+                "NPV_expected": 321723.67283232854, 
+                "year_to_final_tech": 2025
+            }, 
+            "Cons PV": {
+                "total_time": 1.559999942779541, 
+                "mig_years": {
+                    "2025": "FTTH_UDWDM_100"
+                }, 
+                "final_data_rate": 100, 
+                "mig_path": [
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "ADSL", 
+                    "FTTH_UDWDM_100", 
+                    "FTTH_UDWDM_100", 
+                    "FTTH_UDWDM_100"
+                ], 
+                "NPV_expected": 133885.11742840533, 
+                "year_to_final_tech": 2025
+            }
+        }, 
+        "is_ftth_and_force": true
+    }
+]

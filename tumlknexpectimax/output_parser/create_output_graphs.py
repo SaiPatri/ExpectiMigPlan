@@ -1,7 +1,7 @@
 """
 Creates the following graphs:
-1. Net Present Values in residential scenario for all cases
-2. Net Present Values in business scenario for all cases
+1. Net Present Values in all scenario all cases
+2. Migration steps in all scenario all cases
 """
 import json
 import os
@@ -23,8 +23,6 @@ class OutputGraphs:
         self.its_json_file = "results_expectimax_its.json"
         pass
 
-
-
     def create_npv_graph(self,scenario=0):
         """
         scenario 0 for residential, scenario 1 for business, scenario 2 for ITS
@@ -35,10 +33,13 @@ class OutputGraphs:
         if scenario == 0:
 
             results_json_file = os.path.join(self.json_dir,self.residential_json_file)
+            scenario_name = 'residential'
         elif scenario == 1:
             results_json_file = os.path.join(self.json_dir,self.business_json_file)
+            scenario_name = 'business+residential'
         else:
             results_json_file = os.path.join(self.json_dir,self.its_json_file)
+            scenario_name = 'ITS+business+residential'
         with open(results_json_file) as jsonfile:
             migration_data = json.load(jsonfile)
         expected_npv_cons = []
@@ -66,7 +67,7 @@ class OutputGraphs:
         rects_aggr = ax.bar(index_bar+2*width,expected_npv_aggr,width,color='g')
 
         ax.set_ylabel('Net Present Value in Cost Units')
-        ax.set_title('Expected NPV in residential scenario for different penetration curves')
+        ax.set_title('Expected NPV in {0} scenario for different penetration curves'.format(scenario_name))
         ax.set_xticks(index_bar + width/3)
         ax.set_yticks(np.arange(np.floor(min(expected_npv_cons)/1000.0)*1000.0-100000.0,np.ceil(max(expected_npv_aggr)/1000.0)*1000.0+200000.0,100000.0))
         ax.set_xticklabels(('Unforced to 100 Mbps\nFTTC/FTTB/FTTH', 'Unforced to 100 Mbps\nOnly FTTH', 'Forced to 100 Mbps in 2025\nFTTC/FTTB/FTTH','Forced to 100 Mbps in 2025\nOnly FTTH'))
@@ -118,10 +119,13 @@ class OutputGraphs:
         if scenario == 0:
 
             results_json_file = os.path.join(self.json_dir,self.residential_json_file)
+            scenario_name = 'residential'
         elif scenario == 1:
             results_json_file = os.path.join(self.json_dir,self.business_json_file)
+            scenario_name = 'business+residential'
         else:
             results_json_file = os.path.join(self.json_dir,self.its_json_file)
+            scenario_name = 'ITS+business+residential'
         with open(results_json_file) as jsonfile:
             migration_data = json.load(jsonfile)
 
@@ -130,12 +134,12 @@ class OutputGraphs:
         y_col = 0
         mig_years = {}
         START_YEAR = 2018
-        END_YEAR = 2036
+        END_YEAR = 2038
         x = np.arange(START_YEAR,END_YEAR,1)
         x0 = x.copy()-0.1
         x2 = x.copy()+0.1
         f, axarr = plt.subplots(2, 2)
-        plt.suptitle('Average datarates to customers during 15 year migration window')
+        plt.suptitle('Average datarates to customers during 15 year migration window: Scenario {0}'.format(scenario_name))
         mig_tree_cons = []
         mig_tree_likely = []
         mig_tree_aggr = []
@@ -210,7 +214,6 @@ class OutputGraphs:
             x_col += 1
             if x_col == 2:
                 x_col = 0
-
 
         plt.show()
 

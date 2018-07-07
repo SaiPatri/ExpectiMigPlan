@@ -17,12 +17,11 @@ Copyright: Technische Universitaet Muenchen
 import copy
 import sys
 import time
-
 from tumlknexpectimax.input_parser import xls_parser
 from tumlknexpectimax.model_present_value.present_value import GeneratePresentValue
 from tumlknexpectimax.output_parser.create_output_json import OutputJSON
 from tumlknexpectimax.tree.build_tree import TreeBuilder
-
+import numpy as np
 
 # TODO: 10-05-2018: Update for hybridpon
 
@@ -78,6 +77,7 @@ class ExpectiNPVITSBrownfield:
         self.disc_rate = 0.1
         self.present_value_gen = GeneratePresentValue('its',self.pen_curve,self.disc_rate,self.capex_values_dict,self.opex_values)
 
+
     def build_its_tree(self, start_node_tech, mean_prob):
 
         treeBuild = TreeBuilder(self.node_mig_dict_forced,self.node_mig_dict_unforced,self.capex_values_dict,
@@ -102,7 +102,9 @@ def run_expecti_its(inputfile, startyear, maxyear, penetration_curve,depth_all_1
         filename = inputfile
         # TODO: BUILD TREE COMES HERE
         expectiTreeLikely = ExpectiNPVITSBrownfield(filename,start, end,penetration_curve,depth_all_100,only_ftth)
-        time_interval_cf,next_tech,intermediate_path_list = expectiTreeLikely.build_its_tree(start_node_tech,0.1)
+        mean_prob = np.random.normal(0.1,0.03)
+        print('The probability of churn is {0}'.format(mean_prob))
+        time_interval_cf,next_tech,intermediate_path_list = expectiTreeLikely.build_its_tree(start_node_tech,mean_prob)
         tech_changes_at_intervals.append(next_tech)
         action_list = expectiTreeLikely.action_list
         t2 = time.time()
@@ -151,32 +153,43 @@ if __name__ == "__main__":
         print('start year eg 2018')
         print('end year eg 2038')
         print('Look ahead horizon for the agent, eg: 5,10,15. Do not cross 15')
-
-    print('Optical Network Migration Planning Tool\n')
+    print('Expectimax Tree Search runtime calculations\n')
     print('Copyright: Chair of Communication Networks, Technical University of Munich, 2018\n')
-    print ('For different penetration curves, returns the expected NPV and path taken to reach final technology')
+    print ('Using the ITS business scenario, we run the algorithm over and over again by increasing the depth from 2 to 15')
+    print ('We run only for a single tree with no forcing so that we have a full depth tree')
     print('Business Case: Residential+Business+ITS Customers')
     input_file = sys.argv[1]
     start_year = sys.argv[2]
     end_year = sys.argv[3]
-    result_filename = 'results_expectimax_its'
+    result_filename = 'results_expectimax_its_npv_variation_100'
     output_parser = OutputJSON(result_filename)
     # final_migration_dict = {}
     print('----------------------------------------------------------------------------------------------------')
-    for ftth_flag in [True,False]:
-        print('----------------------------------------------------------------------------------------------------')
-        for depth in [25,7]:
-            print('-----------------------------------------------------------------------------------------------')
-            print('Year at which all users to be moved to FTTH: {0}'.format(depth))
-            mig_info_pen_dict = {}
-            for pen_curve in ['Cons PV','Likely PV', 'Aggr PV']:
+    year = int(start_year)+2
+    for iter in range(1,100):
+            for ftth_flag in [False]:
+                expected_npv= 0
+                action_list_new = 0
+                print('----------------------------------------------------------------------------------------------------')
+                for depth in [25]:
+                    print('-----------------------------------------------------------------------------------------------')
+                    mig_info_pen_dict = {}
+                    time_taken = 0
+                    for pen_curve in ['Cons PV','Likely PV','Aggr PV']:
+                        time1 = time.time()
+                        expected_npv, action_list_new, final_migration_year, mig_years, max_data_rate, time_taken=\
+                            run_expecti_its(input_file,int(start_year),int(end_year),pen_curve,depth,ftth_flag)
+                        mig_info_pen_dict[pen_curve] = output_parser.build_mig_dict(pen_curve,expected_npv,action_list_new,final_migration_year,mig_years,max_data_rate,time_taken)
+                        time2 = time.time()
+                        time_taken = time2 - time1
+                        print('Iteration: {0}, Penetration_curve: {1}'.format(iter,pen_curve))
+                        print('Expected NPV is {0}'.format(expected_npv))
+                        print ('The Migration tree is {0}'.format(action_list_new))
+                    output_parser.is_ftth_dict[(iter, int(end_year) - int(start_year))] = copy.deepcopy(mig_info_pen_dict)
+                    mig_info_pen_dict = {}
+                    year += 1
 
-                expected_npv, action_list_new, final_migration_year, mig_years, max_data_rate, time_taken=\
-                    run_expecti_its(input_file,int(start_year),int(end_year),pen_curve,depth,ftth_flag)
-                mig_info_pen_dict[pen_curve] = output_parser.build_mig_dict(pen_curve,expected_npv,action_list_new,final_migration_year,mig_years,max_data_rate,time_taken)
 
-            output_parser.is_ftth_dict[(ftth_flag,depth)] = copy.deepcopy(mig_info_pen_dict)
-            mig_info_pen_dict = {}
 
 
     # TODO: JSONIFY THE OUTPUT and generate graphs
@@ -186,3 +199,6 @@ if __name__ == "__main__":
     # grapher = OutputGraphs(os.path.join(os.getcwd(),'..'))
     # grapher.create_npv_graph(0)
     # grapher.create_migration_steps(0)
+
+
+

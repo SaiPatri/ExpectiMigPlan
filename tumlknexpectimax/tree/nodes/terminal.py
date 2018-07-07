@@ -1,4 +1,5 @@
 class TerminalNode:
+
     def __init__(self,pen_curve,start_year,customers,pv):
         self.pen_curve = pen_curve
         self.START_YEAR = start_year

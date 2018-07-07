@@ -1,6 +1,7 @@
 
 import math
 from collections import OrderedDict
+from numba import jit
 class GeneratePresentValue:
 
     def __init__(self,type,pen_curve,irr,capex,opex):
@@ -14,10 +15,10 @@ class GeneratePresentValue:
         :param irr:
         """
         self.type = type
-        self.rev_dict_residential = {0:3.6,1:8.4,2:9.6,3:9.6,4:15.36,5:15.36,6:15.36,7:15.36,8:15.36,9:8.4,10:9.6,11:15.36,12:15.36,13:15.36}
-        self.rev_dict_business = {0:3.6,1:15.36,2:31,3:31,4:60,5:60,6:60,7:60,8:60,9:15.36,10:31,11:60,12:60,13:60}
-        self.its_onetime = 5000*12/50.0
-        self.its_yearly = 1000*12/50.0
+        self.rev_dict_residential = {0:3.6,1:7.2,2:9.6,3:9.6,4:12,5:12,6:12,7:12,8:12,9:7.2,10:9.6,11:12,12:12,13:12}
+        self.rev_dict_business = {0:3.6,1:12.6,2:14.4,3:14.4,4:30,5:30,6:30,7:30,8:30,9:12.6,10:14.4,11:30,12:30,13:30}
+        self.its_onetime = 1000/50.0
+        self.its_yearly = 150*12/50.0
         self.pen_curve = pen_curve
         self.irr = irr
         self.capex = capex
@@ -82,10 +83,12 @@ class GeneratePresentValue:
 
         return pv_churn
 
+
     def PV_no_churn(self, startyear, index, no_customers, tech_index):
 
         rate = 1 / math.pow(1 + self.irr, index)
-        current_opex = self.opex[self.techindex_dict[tech_index]]
+        orig_opex = self.opex[self.techindex_dict[tech_index]]
+        current_opex = orig_opex*math.pow(1+0.04,index)
 
         if self.type == 'residential':
             no_customers = int(no_customers)

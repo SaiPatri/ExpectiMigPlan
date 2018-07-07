@@ -7,6 +7,8 @@ class ChanceNode:
     """
 
     """
+
+
     def __init__(self, node_mig_dict_forced, node_mig_dict_unforced,capex_values,tech_index, mig_matrix,
                  pen_curve, path_list, forcing_depth, start_year, max_year,pv):
         """
@@ -23,6 +25,7 @@ class ChanceNode:
         :param start_year:
         """
         import tumlknexpectimax.tree.nodes.max as max2
+
 
         self.START_YEAR = start_year
         self.MAX_YEAR = max_year
@@ -50,6 +53,7 @@ class ChanceNode:
             else:
                 lst = lst.pop(-1)
                 maxdepth+=1
+
 
     def chancer(self, node_technology,depth,children,mean_prob):
         """

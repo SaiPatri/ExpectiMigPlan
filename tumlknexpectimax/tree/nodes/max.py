@@ -1,4 +1,4 @@
-import numpy as np
+
 
 from tumlknexpectimax.tree.nodes.chance import ChanceNode
 from tumlknexpectimax.tree.nodes.terminal import TerminalNode
@@ -57,6 +57,7 @@ class MaxNode:
         best_children = self.pv.rank_child_nodes(current_node,complete_child_list)
         return best_children
 
+
     def maximizer(self, type, node_technology,depth,children,churn_rate,mean_prob):
         """
 
@@ -74,13 +75,13 @@ class MaxNode:
         if current_year == self.MAX_YEAR:   # If we have reached max year we should hit a terminal node
 
             self.next_terminal = TerminalNode(self.pen_curve,self.START_YEAR,self.cust_dict[self.pen_curve],self.pv)
-            if depth < 10:
+            if depth < 7:
                 capex_rev_terminal = -(self.capex_values_dict['Electronic Cost'][self.techindex[node_technology]])
             return [sum([(1-mean_prob)*self.next_terminal.terminal_node(node_technology,dep,churn_rate) for dep in range(depth, 2038-self.START_YEAR)])+capex_rev_terminal, depth, node_technology,'NONE', []]    # Returns the value of the PV cashflow along with a list of the [depth, technology_of_terminal, child_of_terminal, previous_list]
         elif node_technology in [4, 5, 6, 7, 8, 11, 12, 13]:
             # TODO: Need to check here if we can try to find the sum value of the remainder years and whether it affects our decision
             self.next_terminal = TerminalNode(self.pen_curve,self.START_YEAR,self.cust_dict[self.pen_curve],self.pv)
-            if depth < 10:
+            if depth < 7:
                 capex_rev_terminal = -(self.capex_values_dict['Electronic Cost'][self.techindex[node_technology]])
             return [sum([(1-mean_prob)*self.next_terminal.terminal_node(node_technology,dep,churn_rate) for dep in range(depth, 2038-self.START_YEAR)])+capex_rev_terminal, depth, node_technology,'NONE', []]
         else:
@@ -95,18 +96,19 @@ class MaxNode:
                 current_child_list = self.node_mig_dict_forced[node_technology]
             else:
                 current_child_list = self.node_mig_dict_unforced[node_technology]
-            if depth > 7:
+            if depth > 25:
                 current_child_list = self.find_best_children(node_technology,current_child_list)
             for child_technology in current_child_list:
 
+                capex_rev = 0
+
                 if child_technology is node_technology:
 
-                    if depth == 10: # child_technology is node_technology
+                    if depth == 7: # child_technology is node_technology
                         capex_rev = -(self.capex_values_dict['Electronic Cost'][self.techindex[node_technology]])
-                    else:
-                        capex_rev = 0
+
                 else:
-                    if depth == 10:
+                    if depth == 7:
 
                         capex_rev = -self.capex_values_dict['Electronic Cost'][self.techindex[node_technology]] -self.mig_matrix[self.techindex[child_technology]][self.techindex[node_technology]]
                     else:
