@@ -23,6 +23,8 @@ class TreeBuilder:
         self.START_YEAR = start_year
         self.MAX_YEAR = max_year
         self.pv = present_value_gen
+        self.children = [max1.MaxNode(self.node_mig_dict_forced, self.node_mig_dict_unforced,self.capex_values,self.tech_index, self.mig_matrix,
+                 self.pen_curve, self.path_list, self.forcing_depth, self.START_YEAR, self.MAX_YEAR,self.pv)]
 
         pass
 
@@ -40,9 +42,7 @@ class TreeBuilder:
     def build_mini_tree(self,action_list,node_mig_dict,start_tech,mean_prob, pen_curve):
         # start_tech = 1
         # TODO: import tree.build_tree
-        maxim = max1.MaxNode(self.node_mig_dict_forced, self.node_mig_dict_unforced,self.capex_values,self.tech_index, self.mig_matrix,
-                 self.pen_curve, self.path_list, self.forcing_depth, self.START_YEAR, self.MAX_YEAR,self.pv)
-
+        maxim = self.children.pop()
         expectidetails_churn = maxim.maximizer('MAXCHURN',start_tech,0,node_mig_dict[start_tech],0.1,mean_prob)
         max_cf_churn = expectidetails_churn[0]
         child_list_cfchurn = expectidetails_churn[1:]

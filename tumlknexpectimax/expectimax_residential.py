@@ -71,6 +71,7 @@ class ExpectiNPV:
             self.node_mig_dict_forced = {0: [4, 5, 11], 1: [5], 2: [5], 3: [4], 4: [4], 5: [5],
                                      6: [5, 6, 7], 7: [7, 5], 8: [8, 4], 9: [11], 10: [11], 11: [11],
                                      12: [11,12,13], 13: [11,13]}
+
         #TODO There is a problem with how we are saving the forcing and non forcing json data. Check and correct
 
         """
@@ -100,14 +101,13 @@ class ExpectiNPV:
         self.force_depth = depth_100
         self.disc_rate = 0.1
         self.present_value_gen = GeneratePresentValue('residential',self.pen_curve,self.disc_rate,self.capex_values_dict,self.opex_values)
-
-    def build_residential_tree(self, start_node_tech, mean_prob):
-
-        treeBuild = TreeBuilder(self.node_mig_dict_forced,self.node_mig_dict_unforced,self.capex_values_dict,
+        self.treeBuild = TreeBuilder(self.node_mig_dict_forced,self.node_mig_dict_unforced,self.capex_values_dict,
                                      self.techindex,self.mig_matrix,self.pen_curve,self.path_list,
                                      self.force_depth,self.START_YEAR,self.MAX_YEAR,self.present_value_gen)
 
-        time_interval_cf,next_tech,intermediate_path_dict = treeBuild.build_mini_tree(self.action_list,
+    def build_residential_tree(self, start_node_tech, mean_prob):
+
+        time_interval_cf,next_tech,intermediate_path_dict = self.treeBuild.build_mini_tree(self.action_list,
                                                                                            self.node_mig_dict_unforced,
                                                                                            start_node_tech,mean_prob,
                                                                                            self.pen_curve)
@@ -125,8 +125,6 @@ def run_expecti_residential(inputfile, startyear, maxyear, penetration_curve,dep
         filename = inputfile
         # TODO: BUILD TREE COMES HERE
         expectiTreeLikely = ExpectiNPV(filename,start, end,penetration_curve,depth_all_100,only_ftth)
-        # TODO: BUILD PROBABLILTY HERE
-
         time_interval_cf,next_tech,intermediate_path_list = expectiTreeLikely.build_residential_tree(start_node_tech,0.1)
         tech_changes_at_intervals.append(next_tech)
         action_list = expectiTreeLikely.action_list
@@ -186,21 +184,28 @@ if __name__ == "__main__":
     result_filename = 'results_expectimax_residential'
     output_parser = OutputJSON(result_filename)
     # final_migration_dict = {}
+    ftth_flag_depth_combo = [(True,25), (True,7),(False,25),(False,7)]
+    ftth_flag = None
+    depth = 0
     print('----------------------------------------------------------------------------------------------------')
-    for ftth_flag in [True,False]:
+
+    while True:
+        if not ftth_flag_depth_combo:
+            break
+        (ftth_flag,depth) = ftth_flag_depth_combo.pop(0)
         print('----------------------------------------------------------------------------------------------------')
-        for depth in [25,7]:
-            print('-----------------------------------------------------------------------------------------------')
-            print('Year at which all users to be moved to FTTH: {0}'.format(depth))
-            mig_info_pen_dict = {}
-            for pen_curve in ['Cons PV','Likely PV', 'Aggr PV']:
+        print('Year at which all users to be moved to FTTH: {0}'.format(depth))
+        mig_info_pen_dict = {}
+        for pen_curve in ['Cons PV','Likely PV', 'Aggr PV']:
 
-                expected_npv, action_list_new, final_migration_year, mig_years, max_data_rate, time_taken=\
-                    run_expecti_residential(input_file,int(start_year),int(end_year),pen_curve,depth,ftth_flag)
-                mig_info_pen_dict[pen_curve] = output_parser.build_mig_dict(pen_curve,expected_npv,action_list_new,final_migration_year,mig_years,max_data_rate,time_taken)
+            expected_npv, action_list_new, final_migration_year, mig_years, max_data_rate, time_taken=\
+                run_expecti_residential(input_file,int(start_year),int(end_year),pen_curve,depth,ftth_flag)
 
-            output_parser.is_ftth_dict[(ftth_flag,depth)] = copy.deepcopy(mig_info_pen_dict)
-            mig_info_pen_dict = {}
+            mig_info_pen_dict[pen_curve] = output_parser.build_mig_dict(pen_curve,expected_npv,action_list_new,
+                                                                        final_migration_year,mig_years,max_data_rate,
+                                                                        time_taken)
+
+        output_parser.is_ftth_dict[(ftth_flag,depth)] = copy.deepcopy(mig_info_pen_dict)
 
 
     # TODO: JSONIFY THE OUTPUT and generate graphs

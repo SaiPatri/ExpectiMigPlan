@@ -73,7 +73,6 @@ class ChanceNode:
         child_details_nochurn = self.current_year_maxer.maximizer('MAXNOCHURN',node_technology,depth, children, 0.0,prob_churn)
         chance_cf_nochurn = child_details_nochurn[0]
         child_list2 = child_details_nochurn[1:]
-        # TODO: CHECK IF LEN WORKS
         try:
             countchurn = copy.deepcopy(child_list1)
             countnochurn = copy.deepcopy(child_list2)

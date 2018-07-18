@@ -17,12 +17,12 @@ Copyright: Technische Universitaet Muenchen
 import copy
 import sys
 import time
-
+import os
 from tumlknexpectimax.input_parser import xls_parser
 from tumlknexpectimax.model_present_value.present_value import GeneratePresentValue
 from tumlknexpectimax.output_parser.create_output_json import OutputJSON
 from tumlknexpectimax.tree.build_tree import TreeBuilder
-
+from tumlknexpectimax.output_parser.create_output_graphs import OutputGraphs
 
 # TODO: 10-05-2018: Update for hybridpon
 
@@ -77,14 +77,13 @@ class ExpectiNPVITSBrownfield:
         self.force_depth = depth_100
         self.disc_rate = 0.1
         self.present_value_gen = GeneratePresentValue('its',self.pen_curve,self.disc_rate,self.capex_values_dict,self.opex_values)
-
-    def build_its_tree(self, start_node_tech, mean_prob):
-
-        treeBuild = TreeBuilder(self.node_mig_dict_forced,self.node_mig_dict_unforced,self.capex_values_dict,
+        self.treeBuild = TreeBuilder(self.node_mig_dict_forced,self.node_mig_dict_unforced,self.capex_values_dict,
                                 self.techindex,self.mig_matrix,self.pen_curve,self.path_list,
                                 self.force_depth,self.START_YEAR,self.MAX_YEAR,self.present_value_gen)
 
-        time_interval_cf,next_tech,intermediate_path_dict = treeBuild.build_mini_tree(self.action_list,
+    def build_its_tree(self, start_node_tech, mean_prob):
+
+        time_interval_cf,next_tech,intermediate_path_dict = self.treeBuild.build_mini_tree(self.action_list,
                                                                                       self.node_mig_dict_unforced,
                                                                                       start_node_tech,mean_prob,
                                                                                       self.pen_curve)
@@ -183,6 +182,6 @@ if __name__ == "__main__":
 
     # Dump to json file
     output_parser.dump_to_json(output_parser.is_ftth_dict)
-    # grapher = OutputGraphs(os.path.join(os.getcwd(),'..'))
-    # grapher.create_npv_graph(0)
-    # grapher.create_migration_steps(0)
+    grapher = OutputGraphs(os.path.join(os.getcwd(),'..'))
+    grapher.create_npv_graph(2)
+    grapher.create_migration_steps(2)
