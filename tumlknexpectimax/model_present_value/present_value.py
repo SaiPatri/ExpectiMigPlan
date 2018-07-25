@@ -1,7 +1,6 @@
 
 import math
 from collections import OrderedDict
-from numba import jit
 class GeneratePresentValue:
 
     def __init__(self,type,pen_curve,irr,capex,opex):
@@ -20,12 +19,12 @@ class GeneratePresentValue:
         self.rev_dict_business = {0: 6, 1: 36, 2: 84, 3: 84, 4: 132, 5: 132, 6: 132, 7: 132, 8: 132, 9: 36,
                                   10: 84, 11: 132, 12: 132, 13: 132}
         self.its_onetime = 1000/50.0
-        self.its_yearly = 50*12/50.0
+        self.its_yearly = 550*12/50.0
         self.pen_curve = pen_curve
         self.irr = irr
         self.capex = capex
         self.opex = opex
-        self.no_its_demands = 9
+        self.no_its_demands = 8
         self.techindex_dict = {0: u'ADSL', 1: u'FTTC_GPON_25', 2: u'FTTB_XGPON_50', 3: u'FTTB_UDWDM_50',
                           4: u'FTTH_UDWDM_100', 5: u'FTTH_XGPON_100', 6: u'FTTC_GPON_100',
                           7: u'FTTB_XGPON_100', 8: u'FTTB_UDWDM_100', 9: u'FTTC_Hybridpon_25',
@@ -42,7 +41,7 @@ class GeneratePresentValue:
         """
 
         rate = 1/math.pow(1+self.irr,index)
-        current_opex = (self.opex[self.techindex_dict[tech_index]])# *math.pow(1+0.02,index)
+        current_opex = (self.opex[self.techindex_dict[tech_index]])*math.pow(1+0.02,index)
 
         if self.type == 'residential':
             post_churn_new_customers = int(no_customers - churn_rate * no_customers)
@@ -56,7 +55,7 @@ class GeneratePresentValue:
             residential_customers = math.ceil(no_customers-business_customers)
             post_churn_business_cust = int(business_customers-churn_rate*business_customers)
             post_churn_residential_cust = int(residential_customers-churn_rate*residential_customers)
-            yearly_rev_new = post_churn_residential_cust*self.rev_dict_residential[tech_index]+\
+            yearly_rev_new = post_churn_residential_cust*self.rev_dict_residential[tech_index] +\
                          post_churn_business_cust*self.rev_dict_business[tech_index]
             # yearly_rev_adsl = (self.total_customers-post_churn_business_cust-post_churn_residential_cust)*self.rev_dict_business[0]
             current_cashflow = yearly_rev_new-current_opex
@@ -65,11 +64,11 @@ class GeneratePresentValue:
             residential_customers = math.ceil(no_customers - business_customers)
             post_churn_business_cust = int(business_customers - churn_rate * business_customers)
             post_churn_residential_cust = int(residential_customers - churn_rate * residential_customers)
-            if index < 7:
+            if index < 10:
                 yearly_rev_new = post_churn_residential_cust * self.rev_dict_residential[tech_index] \
                              + post_churn_business_cust * self.rev_dict_business[tech_index]
 
-            elif index == 7:
+            elif index == 10:
 
                 yearly_rev_new = post_churn_residential_cust * self.rev_dict_residential[tech_index] + \
                              post_churn_business_cust * self.rev_dict_business[tech_index]+ \
@@ -90,7 +89,7 @@ class GeneratePresentValue:
 
         rate = 1 / math.pow(1 + self.irr, index)
         orig_opex = self.opex[self.techindex_dict[tech_index]]
-        current_opex = orig_opex# *math.pow(1+0.02,index)
+        current_opex = orig_opex*math.pow(1+0.02,index)
 
         if self.type == 'residential':
             no_customers = int(no_customers)
@@ -178,9 +177,7 @@ class GeneratePresentValue:
             elif not child_dict_ordered:
                 break
             else:
-
                 #get minimum key value
-
                 best_children.append(min(child_dict_ordered, key=child_dict_ordered.get))
                 #delete minimum value from dict
                 child_dict_ordered.pop(min(child_dict_ordered, key=child_dict_ordered.get))

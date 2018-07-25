@@ -184,7 +184,7 @@ if __name__ == "__main__":
     result_filename = 'results_expectimax_residential'
     output_parser = OutputJSON(result_filename)
     # final_migration_dict = {}
-    ftth_flag_depth_combo = [(True,25), (True,7),(False,25),(False,7)]
+    ftth_flag_depth_combo = [(True,25), (True,5),(False,25),(False,5)]
     ftth_flag = None
     depth = 0
     print('----------------------------------------------------------------------------------------------------')

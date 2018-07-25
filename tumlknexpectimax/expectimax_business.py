@@ -1,6 +1,6 @@
 """
 Expectimax search for a mix of business and residential subscribers.
-Assumptions are: a. 7% business subscribers in urban area, b. Businesses charged more for 1:1 contention ratio
+Assumptions are: a. 10% business subscribers in urban area, b. Businesses charged more for 1:1 contention ratio
 c. 10% IRR d. 10% Customer churn for both business as well as residential users. Monopolistic scenario, no competition
 *************************************************************************************************
 1. Enter the details like capex,opex,revenue and generate data for each of the technologies

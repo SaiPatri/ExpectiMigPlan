@@ -136,17 +136,17 @@ class MaxNode:
         if current_year == self.MAX_YEAR:   # If we have reached max year we should hit a terminal node
 
             self.next_terminal = TerminalNode(self.pen_curve,self.START_YEAR,self.cust_dict[self.pen_curve],self.pv)
-            # if depth < 7:
-            #    capex_rev_terminal = -(self.capex_values_dict['Electronic Cost'][self.techindex[node_technology]])
+            if depth >= 9:
+                capex_rev_terminal = -(self.capex_values_dict['Electronic Cost'][self.techindex[node_technology]])
             total_rev = [sum([self.next_terminal.terminal_node(node_technology,dep,churn_rate) for dep in range(depth, 2038-self.START_YEAR)])+capex_rev_terminal, depth, node_technology,'NONE', []]    # Returns the value of the PV cashflow along with a list of the [depth, technology_of_terminal, child_of_terminal, previous_list]
             return total_rev
 
         elif node_technology in [4, 5, 6, 7, 8, 11, 12, 13]:
             # TODO: Need to check here if we can try to find the sum value of the remainder years and whether it affects our decision
             self.next_terminal = TerminalNode(self.pen_curve,self.START_YEAR,self.cust_dict[self.pen_curve],self.pv)
-            # if depth < 7:
-            #    capex_rev_terminal = -(self.capex_values_dict['Electronic Cost'][self.techindex[node_technology]])
-            total_rev =  [sum([self.next_terminal.terminal_node(node_technology,dep,churn_rate) for dep in range(depth, 2038-self.START_YEAR)])+capex_rev_terminal, depth, node_technology,'NONE', []]
+            if depth >= 9:
+                capex_rev_terminal = -(self.capex_values_dict['Electronic Cost'][self.techindex[node_technology]])
+            total_rev = [sum([self.next_terminal.terminal_node(node_technology,dep,churn_rate) for dep in range(depth, 2038-self.START_YEAR)])+capex_rev_terminal, depth, node_technology,'NONE', []]
             return total_rev
         else:
             self.next_chancer = ChanceNode(self.node_mig_dict_forced, self.node_mig_dict_unforced,
@@ -166,7 +166,7 @@ class MaxNode:
 
                 capex_rev = 0
 
-                if child_technology is node_technology:
+                if child_technology == node_technology:
 
                     if depth == 7: # child_technology is node_technology
                         capex_rev = - self.capex_values_dict['Electronic Cost'][self.techindex[node_technology]]
