@@ -22,6 +22,7 @@ class MaxNode:
         self.path_list = path_list
         self.force_depth = int(forcing_depth)
         self.pv = pv
+        # MUNICH
 
         self.cust_dict = {
             'Cons PV': [96, 128, 172, 233, 318, 435, 594, 813, 1109, 1509, 2044, 2751, 3672, 4849, 6311, 8068, 10087,
@@ -32,6 +33,8 @@ class MaxNode:
                         23758, 23759, 23759, 23760, 23760, 23760]
         }
         """
+        # NEWYORK
+        
         self.cust_dict = {
             'Cons PV': [208, 276, 371, 504, 687, 938, 1284, 1755, 2394, 3257, 4412, 5938, 7927, 10467, 13623, 17414, 21773,
                         26521, 31374, 35990, 40058],
@@ -39,6 +42,13 @@ class MaxNode:
                           30490, 35792, 40429, 44099, 46749],
             'Aggr PV': [208, 387, 739, 1428, 2771, 5338, 10058, 18073, 29701, 42126, 49586, 51184, 51258, 51269, 51276,
                         51280, 51282, 51283,51284, 51285, 51285]
+        }
+        
+        # OTTOBRUNN
+        self.cust_dict = {
+            'Cons PV': [29, 38, 51, 70, 95, 131, 179, 244, 334, 454, 615, 828, 1106, 1460, 1900, 2429, 3038, 3700, 4377, 5021, 5589],
+            'Likely PV': [29, 39, 55, 77, 109, 154, 219, 309, 435, 610, 850, 1170, 1590, 2120, 2760, 3487, 4254, 4994, 5641, 6153, 6523],
+            'Aggr PV': [29, 54, 103, 199, 386, 744, 1403, 2521, 4144, 5878, 6919, 7142, 7152, 7153, 7154, 7155, 7155, 7155, 7155, 7156, 7156]
         }
         """
         self.next_terminal = None
@@ -51,7 +61,8 @@ class MaxNode:
                                'civil': [(7,5), (8,4), (12,11), (12,13)],
                                'elec': [(1,6), (2,7), (3,8),(9,12), (10,13), (13,11)]
                                }
-        pass
+
+
 
     def find_best_children(self,current_node,complete_child_list):
         """
@@ -141,8 +152,8 @@ class MaxNode:
             total_rev = [sum([self.next_terminal.terminal_node(node_technology,dep,churn_rate) for dep in range(depth, 2038-self.START_YEAR)])+capex_rev_terminal, depth, node_technology,'NONE', []]    # Returns the value of the PV cashflow along with a list of the [depth, technology_of_terminal, child_of_terminal, previous_list]
             return total_rev
 
-        elif node_technology in [4, 5, 6, 7, 8, 11, 12, 13]:
-            # TODO: Need to check here if we can try to find the sum value of the remainder years and whether it affects our decision
+        elif node_technology in [4, 5, 6, 7, 8, 11, 12, 13]: # If we have reached final technology we should hit a terminal node
+
             self.next_terminal = TerminalNode(self.pen_curve,self.START_YEAR,self.cust_dict[self.pen_curve],self.pv)
             if depth >= 9:
                 capex_rev_terminal = -(self.capex_values_dict['Electronic Cost'][self.techindex[node_technology]])
@@ -156,7 +167,7 @@ class MaxNode:
             temp_dict = {}
             max_child_tech = node_technology
             max_child_list = []
-            if depth >= self.force_depth-1:
+            if depth > self.force_depth-1:
                 current_child_list = self.node_mig_dict_forced[node_technology]
             else:
                 current_child_list = self.node_mig_dict_unforced[node_technology]
@@ -168,11 +179,11 @@ class MaxNode:
 
                 if child_technology == node_technology:
 
-                    if depth == 7: # child_technology is node_technology
+                    if depth == self.force_depth: # child_technology is node_technology
                         capex_rev = - self.capex_values_dict['Electronic Cost'][self.techindex[node_technology]]
 
                 else:
-                    if depth == 7:
+                    if depth == self.force_depth:
 
                         capex_rev = - self.capex_values_dict['Electronic Cost'][self.techindex[node_technology]] - \
                                     self.mig_cost(node_technology,child_technology)

@@ -1,0 +1,144 @@
+[
+    {
+        "name": "OASE Base Model", 
+        "migration_info": {
+            "Aggr PV": {
+                "total_time": 59.86299991607666,
+                "mig_years": {
+                    "2019": "FTTH_UDWDM_100"
+                },
+                "final_data_rate": 100,
+                "mig_path": [
+                    "ADSL",
+                    "FTTH_UDWDM_100",
+                    "FTTH_UDWDM_100",
+                    "FTTH_UDWDM_100",
+                    "FTTH_UDWDM_100",
+                    "FTTH_UDWDM_100",
+                    "FTTH_UDWDM_100",
+                    "FTTH_UDWDM_100",
+                    "FTTH_UDWDM_100",
+                    "FTTH_UDWDM_100"
+                ],
+                "NPV_expected": 1282631.5480653695,
+                "year_to_final_tech": 2019
+            },
+            "Likely PV": {
+                "total_time": 59.92899990081787,
+                "mig_years": {
+                    "2019": "FTTB_Hybridpon_50",
+                    "2020": "FTTB_Hybridpon_100"
+                },
+                "final_data_rate": 100,
+                "mig_path": [
+                    "ADSL",
+                    "FTTB_Hybridpon_50",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100"
+                ],
+                "NPV_expected": 272726.551353732,
+                "year_to_final_tech": 2020
+            },
+            "Cons PV": {
+                "total_time": 59.85800004005432,
+                "mig_years": {
+                    "2019": "FTTB_Hybridpon_50",
+                    "2020": "FTTB_Hybridpon_100"
+                },
+                "final_data_rate": 100,
+                "mig_path": [
+                    "ADSL",
+                    "FTTB_Hybridpon_50",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100"
+                ],
+                "NPV_expected": 152401.51671263058,
+                "year_to_final_tech": 2020
+            }
+        }
+    },
+	{
+        "name": "OASE new OPEX", 
+        "migration_info": {
+            "Cons PV": {
+                "NPV_expected": 216007.47793011254,
+                "mig_path": [
+                    "ADSL",
+                    "FTTB_Hybridpon_50",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100"
+                ],
+                "year_to_final_tech": 2020,
+                "mig_years": {
+                    "2019": "FTTB_Hybridpon_50",
+                    "2020": "FTTB_Hybridpon_100"
+                },
+                "final_data_rate": 100,
+                "total_time": 49.22685432434082
+            },
+            "Likely PV": {
+                "NPV_expected": 359372.65098111145,
+                "mig_path": [
+                    "ADSL",
+                    "FTTB_Hybridpon_50",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100"
+                ],
+                "year_to_final_tech": 2020,
+                "mig_years": {
+                    "2019": "FTTB_Hybridpon_50",
+                    "2020": "FTTB_Hybridpon_100"
+                },
+                "final_data_rate": 100,
+                "total_time": 54.753175258636475
+            },
+            "Aggr PV": {
+                "NPV_expected": 1535318.7079397666,
+                "mig_path": [
+                    "ADSL",
+                    "FTTB_Hybridpon_50",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100"
+                ],
+                "year_to_final_tech": 2020,
+                "mig_years": {
+                    "2019": "FTTB_Hybridpon_50",
+                    "2020": "FTTB_Hybridpon_100"
+                },
+                "final_data_rate": 100,
+                "total_time": 57.451223373413086
+            }
+        }
+	}
+	
+]

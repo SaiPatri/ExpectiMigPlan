@@ -22,7 +22,7 @@ from tumlknexpectimax.input_parser import xls_parser
 from tumlknexpectimax.model_present_value.present_value import GeneratePresentValue
 from tumlknexpectimax.output_parser.create_output_json import OutputJSON
 from tumlknexpectimax.tree.build_tree import TreeBuilder
-from tumlknexpectimax.output_parser.create_output_graphs import OutputGraphs
+from tumlknexpectimax.output_parser.new_output_graphs import OutputGraphs
 
 # TODO: 10-05-2018: Update for hybridpon
 
@@ -52,25 +52,50 @@ class ExpectiNPVITSBrownfield:
 
         self.START_YEAR = START_YEAR
         self.MAX_YEAR = MAX_YEAR
+        # """
+
 
         if not only_ftth:
-            self.node_mig_dict_unforced = {0: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
-                                           1: [1, 2, 5, 6, 7], 2: [2, 5, 7], 3: [3, 4, 8], 4: [4],5: [5],
-                                           6: [5, 6, 7], 7: [7, 5], 8: [8, 4], 9: [9, 10, 11, 12, 13],
-                                           10: [10, 11, 13], 11: [11], 12: [11, 12, 13], 13: [11, 13]}
 
-            self.node_mig_dict_forced = {0: [4, 5, 6, 7, 8, 11, 12, 13], 1: [5, 6], 2: [5, 7], 3: [4, 8], 4: [4],
-                                         5: [5], 6: [5, 6, 7], 7: [7, 5], 8: [8, 4], 9: [11, 12, 13], 10: [11, 13],
-                                         11: [11], 12: [11, 12, 13], 13: [11, 13]}
+            self.node_mig_dict_unforced = {0: [0,1,2,3,4,5,6,7,8,9,10,11,12,13], 1: [1, 2, 5, 6, 7], 2: [2, 5, 7],
+                                       3: [3, 4, 8], 4: [4],5: [5], 6: [5, 6, 7], 7: [7, 5], 8: [8, 4],
+                                       9: [9, 10, 11, 12, 13], 10: [10, 11, 13], 11: [11], 12: [11, 12, 13],
+                                       13: [11, 13]}
+
+            self.node_mig_dict_forced = {0: [4, 5, 6, 7, 8, 11, 12, 13], 1: [5, 6], 2: [5, 7], 3: [4, 8], 4: [4], 5: [5],
+                                     6: [5, 6, 7], 7: [7, 5], 8: [8, 4], 9: [11, 12, 13], 10: [11, 13], 11: [11],
+                                     12: [11,12,13], 13: [11,13]}
 
         else:
-            self.node_mig_dict_unforced = {0: [0, 1, 2, 3, 4, 5, 9, 10, 11], 1: [1, 2, 5], 2: [2, 5],
-                                           3: [3, 4], 4: [4],5: [5], 6: [5, 6, 7], 7: [7, 5], 8: [8, 4],
+            self.node_mig_dict_unforced = {0: [0,1,2,3,4,5,9,10,11], 1: [1, 2, 5], 2: [2, 5],
+                                       3: [3, 4], 4: [4],5: [5], 6: [5, 6, 7], 7: [7, 5], 8: [8, 4],
                                        9: [9, 10, 11], 10: [10, 11], 11: [11], 12: [11, 12, 13],
                                        13: [11, 13]}
             self.node_mig_dict_forced = {0: [4, 5, 11], 1: [5], 2: [5], 3: [4], 4: [4], 5: [5],
                                      6: [5, 6, 7], 7: [7, 5], 8: [8, 4], 9: [11], 10: [11], 11: [11],
                                      12: [11,12,13], 13: [11,13]}
+        """
+        # IMPORTANT: THIS IS ONLY FOR SUBURBAN TOPOLOGIES, UNCOMMENT THE TOP PART AND COMMENT THE BOTTOM PART FOR
+        # DENSE URBAN AND URBAN TOPOLOGY
+        if not only_ftth:
+            self.node_mig_dict_unforced = {0: [0,1,2,3,4,5,6,9,10,11,12], 1: [1, 2, 5, 6], 2: [2, 5],
+                                       3: [3, 4], 4: [4],5: [5], 6: [5, 6], 7: [7, 5], 8: [8, 4],
+                                       9: [9, 10, 11, 12], 10: [10, 11], 11: [11], 12: [11, 12],
+                                       13: [11]}
+
+            self.node_mig_dict_forced = {0: [4, 5, 6, 11, 12], 1: [5, 6], 2: [5], 3: [4], 4: [4], 5: [5],
+                                     6: [5, 6], 7: [5], 8: [8], 9: [11, 12], 10: [11], 11: [11],
+                                     12: [11,12], 13: [11]}
+
+        else:
+            self.node_mig_dict_unforced = {0: [0,1,2,3,4,5,9,10,11], 1: [1, 2, 5], 2: [2, 5],
+                                       3: [3, 4], 4: [4],5: [5], 6: [5, 6], 7: [5], 8: [4],
+                                       9: [9, 10, 11], 10: [10, 11], 11: [11], 12: [11, 12],
+                                       13: [11]}
+            self.node_mig_dict_forced = {0: [4, 5, 11], 1: [5], 2: [5], 3: [4], 4: [4], 5: [5],
+                                     6: [5, 6], 7: [5], 8: [4], 9: [11], 10: [11], 11: [11],
+                                     12: [11,12], 13: [11]}
+        """
         self.action_list = []
         self.pen_curve = pen_curve
         self.path_list = []
@@ -161,10 +186,46 @@ if __name__ == "__main__":
     result_filename = 'results_expectimax_its'
     output_parser = OutputJSON(result_filename)
     # final_migration_dict = {}
+    ftth_flag_depth_combo = [(True,25), (True,7),(False,25),(False,7)]
+    ftth_flag = None
+    depth = 0
+
     print('----------------------------------------------------------------------------------------------------')
-    for ftth_flag in [True,False]:
+
+    while True:
+        if not ftth_flag_depth_combo:
+            break
+        (ftth_flag,depth) = ftth_flag_depth_combo.pop(0)
         print('----------------------------------------------------------------------------------------------------')
-        for depth in [25,7]:
+        print('Year at which all users to be moved to 100 Mbps: {0}'.format(depth))
+        mig_info_pen_dict = {}
+        for pen_curve in ['Cons PV','Likely PV', 'Aggr PV']:
+
+            expected_npv, action_list_new, final_migration_year, mig_years, max_data_rate, time_taken=\
+                run_expecti_its(input_file,int(start_year),int(end_year),pen_curve,depth,ftth_flag)
+
+            mig_info_pen_dict[pen_curve] = output_parser.build_mig_dict(pen_curve,expected_npv,action_list_new,
+                                                                        final_migration_year,mig_years,max_data_rate,
+                                                                        time_taken)
+
+        output_parser.is_ftth_dict[(ftth_flag,depth)] = copy.deepcopy(mig_info_pen_dict)
+
+
+    # TODO: JSONIFY THE OUTPUT and generate graphs
+
+    # Dump to json file
+    output_parser.dump_to_json(output_parser.is_ftth_dict)
+    grapher = OutputGraphs(os.path.join(os.getcwd(), '..'))
+    # grapher.create_npv_graph(2)
+    # grapher.create_migration_steps(2)
+
+    """
+    print('----------------------------------------------------------------------------------------------------')
+    # for ftth_flag in [True,False]:
+    for ftth_flag in [False]:
+        print('----------------------------------------------------------------------------------------------------')
+        # for depth in [25,7]:
+        for depth in [25]:
             print('-----------------------------------------------------------------------------------------------')
             print('Year at which all users to be moved to FTTH: {0}'.format(depth))
             mig_info_pen_dict = {}
@@ -183,5 +244,6 @@ if __name__ == "__main__":
     # Dump to json file
     output_parser.dump_to_json(output_parser.is_ftth_dict)
     grapher = OutputGraphs(os.path.join(os.getcwd(),'..'))
-    grapher.create_npv_graph(2)
-    grapher.create_migration_steps(2)
+    # grapher.create_npv_graph(2)
+    # grapher.create_migration_steps(2)
+    """

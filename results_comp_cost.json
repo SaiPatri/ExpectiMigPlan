@@ -1,0 +1,283 @@
+[
+    {
+        "name": "OASE", 
+        "migration_info": {
+            "Aggr PV": {
+                "total_time": 60.8989999294281,
+                "mig_years": {
+                    "2019": "FTTH_UDWDM_100"
+                },
+                "final_data_rate": 100,
+                "mig_path": [
+                    "ADSL",
+                    "FTTH_UDWDM_100",
+                    "FTTH_UDWDM_100",
+                    "FTTH_UDWDM_100",
+                    "FTTH_UDWDM_100",
+                    "FTTH_UDWDM_100",
+                    "FTTH_UDWDM_100",
+                    "FTTH_UDWDM_100",
+                    "FTTH_UDWDM_100",
+                    "FTTH_UDWDM_100"
+                ],
+                "NPV_expected": 1259358.3833555782,
+                "year_to_final_tech": 2019
+            },
+            "Likely PV": {
+                "total_time": 60.674999952316284,
+                "mig_years": {
+                    "2019": "FTTB_Hybridpon_50",
+                    "2020": "FTTB_Hybridpon_100"
+                },
+                "final_data_rate": 100,
+                "mig_path": [
+                    "ADSL",
+                    "FTTB_Hybridpon_50",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100"
+                ],
+                "NPV_expected": 263694.3616117848,
+                "year_to_final_tech": 2020
+            },
+            "Cons PV": {
+                "total_time": 59.271000146865845,
+                "mig_years": {
+                    "2019": "FTTB_Hybridpon_50",
+                    "2020": "FTTB_Hybridpon_100"
+                },
+                "final_data_rate": 100,
+                "mig_path": [
+                    "ADSL",
+                    "FTTB_Hybridpon_50",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100"
+                ],
+                "NPV_expected": 145045.34151150074,
+                "year_to_final_tech": 2020
+            }
+        }
+    },
+	{
+        "name": "Phillipson", 
+        "migration_info": {
+            "Aggr PV": {
+                "total_time": 59.96399998664856,
+                "mig_years": {
+                    "2019": "FTTH_UDWDM_100"
+                },
+                "final_data_rate": 100,
+                "mig_path": [
+                    "ADSL",
+                    "FTTH_UDWDM_100",
+                    "FTTH_UDWDM_100",
+                    "FTTH_UDWDM_100",
+                    "FTTH_UDWDM_100",
+                    "FTTH_UDWDM_100",
+                    "FTTH_UDWDM_100",
+                    "FTTH_UDWDM_100",
+                    "FTTH_UDWDM_100",
+                    "FTTH_UDWDM_100"
+                ],
+                "NPV_expected": 1259044.8523628896,
+                "year_to_final_tech": 2019
+            },
+            "Likely PV": {
+                "total_time": 60.86299991607666,
+                "mig_years": {
+                    "2019": "FTTB_UDWDM_50",
+                    "2020": "FTTB_UDWDM_100"
+                },
+                "final_data_rate": 100,
+                "mig_path": [
+                    "ADSL",
+                    "FTTB_UDWDM_50",
+                    "FTTB_UDWDM_100",
+                    "FTTB_UDWDM_100",
+                    "FTTB_UDWDM_100",
+                    "FTTB_UDWDM_100",
+                    "FTTB_UDWDM_100",
+                    "FTTB_UDWDM_100",
+                    "FTTB_UDWDM_100",
+                    "FTTB_UDWDM_100"
+                ],
+                "NPV_expected": 272736.3301172085,
+                "year_to_final_tech": 2020
+            },
+            "Cons PV": {
+                "total_time": 59.444000005722046,
+                "mig_years": {
+                    "2019": "FTTB_UDWDM_50",
+                    "2020": "FTTB_UDWDM_100"
+                },
+                "final_data_rate": 100,
+                "mig_path": [
+                    "ADSL",
+                    "FTTB_UDWDM_50",
+                    "FTTB_UDWDM_100",
+                    "FTTB_UDWDM_100",
+                    "FTTB_UDWDM_100",
+                    "FTTB_UDWDM_100",
+                    "FTTB_UDWDM_100",
+                    "FTTB_UDWDM_100",
+                    "FTTB_UDWDM_100",
+                    "FTTB_UDWDM_100"
+                ],
+                "NPV_expected": 167071.49613223528,
+                "year_to_final_tech": 2020
+            }
+        }
+    },
+	{
+        "name": "Rokkas", 
+        "migration_info": {
+            "Aggr PV": {
+                "total_time": 59.944000005722046,
+                "mig_years": {
+                    "2019": "FTTB_Hybridpon_50",
+                    "2020": "FTTB_Hybridpon_100"
+                },
+                "final_data_rate": 100,
+                "mig_path": [
+                    "ADSL",
+                    "FTTB_Hybridpon_50",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100"
+                ],
+                "NPV_expected": 1245743.1384579884,
+                "year_to_final_tech": 2020
+            },
+            "Likely PV": {
+                "total_time": 59.69199991226196,
+                "mig_years": {
+                    "2019": "FTTB_Hybridpon_50",
+                    "2020": "FTTB_Hybridpon_100"
+                },
+                "final_data_rate": 100,
+                "mig_path": [
+                    "ADSL",
+                    "FTTB_Hybridpon_50",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100"
+                ],
+                "NPV_expected": 256984.06231393767,
+                "year_to_final_tech": 2020
+            },
+            "Cons PV": {
+                "total_time": 59.562000036239624,
+                "mig_years": {
+                    "2019": "FTTB_Hybridpon_50",
+                    "2020": "FTTB_Hybridpon_100"
+                },
+                "final_data_rate": 100,
+                "mig_path": [
+                    "ADSL",
+                    "FTTB_Hybridpon_50",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100",
+                    "FTTB_Hybridpon_100"
+                ],
+                "NPV_expected": 138335.04221365374,
+                "year_to_final_tech": 2020
+            }
+        }
+    },
+	{
+        "name": "BSG", 
+        "migration_info": {
+            "Aggr PV": {
+                "total_time": 59.03399991989136,
+                "mig_years": {
+                    "2019": "FTTH_Hybridpon_100"
+                },
+                "final_data_rate": 100,
+                "mig_path": [
+                    "ADSL",
+                    "FTTH_Hybridpon_100",
+                    "FTTH_Hybridpon_100",
+                    "FTTH_Hybridpon_100",
+                    "FTTH_Hybridpon_100",
+                    "FTTH_Hybridpon_100",
+                    "FTTH_Hybridpon_100",
+                    "FTTH_Hybridpon_100",
+                    "FTTH_Hybridpon_100",
+                    "FTTH_Hybridpon_100"
+                ],
+                "NPV_expected": 1067373.3096893672,
+                "year_to_final_tech": 2019
+            },
+            "Likely PV": {
+                "total_time": 59.74900007247925,
+                "mig_years": {
+                    "2019": "FTTH_Hybridpon_100"
+                },
+                "final_data_rate": 100,
+                "mig_path": [
+                    "ADSL",
+                    "FTTH_Hybridpon_100",
+                    "FTTH_Hybridpon_100",
+                    "FTTH_Hybridpon_100",
+                    "FTTH_Hybridpon_100",
+                    "FTTH_Hybridpon_100",
+                    "FTTH_Hybridpon_100",
+                    "FTTH_Hybridpon_100",
+                    "FTTH_Hybridpon_100",
+                    "FTTH_Hybridpon_100"
+                ],
+                "NPV_expected": 55679.928366387336,
+                "year_to_final_tech": 2019
+            },
+            "Cons PV": {
+                "total_time": 60.10700011253357,
+                "mig_years": {},
+                "final_data_rate": 20,
+                "mig_path": [
+                    "ADSL",
+                    "ADSL",
+                    "ADSL",
+                    "ADSL",
+                    "ADSL",
+                    "ADSL",
+                    "ADSL",
+                    "ADSL",
+                    "ADSL",
+                    "ADSL",
+                    "ADSL"
+                ],
+                "NPV_expected": 29908.602688644343,
+                "year_to_final_tech": 2028
+            }
+        } 
+        
+    }
+	
+	
+]

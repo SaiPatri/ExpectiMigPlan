@@ -18,7 +18,7 @@ import time
 
 from tumlknexpectimax.input_parser import xls_parser
 from tumlknexpectimax.model_present_value.present_value import GeneratePresentValue
-from tumlknexpectimax.output_parser.create_output_graphs import OutputGraphs
+from tumlknexpectimax.output_parser.new_output_graphs import OutputGraphs
 from tumlknexpectimax.output_parser.create_output_json import OutputJSON
 from tumlknexpectimax.tree.build_tree import TreeBuilder
 
@@ -52,16 +52,18 @@ class ExpectiNPV:
         self.START_YEAR = START_YEAR
         self.MAX_YEAR = MAX_YEAR
 
+        # matrix for new york and munich
+        """
         if not only_ftth:
             
             self.node_mig_dict_unforced = {0: [0,1,2,3,4,5,6,7,8,9,10,11,12,13], 1: [1, 2, 5, 6, 7], 2: [2, 5, 7],
-                                       3: [3, 4, 8], 4: [4],5: [5], 6: [5, 6, 7], 7: [7, 5], 8: [8, 4],
-                                       9: [9, 10, 11, 12, 13], 10: [10, 11, 13], 11: [11], 12: [11, 12, 13],
-                                       13: [11, 13]}
+                                       3: [3, 4, 8], 4: [4],5: [5], 6: [6], 7: [7], 8: [8],
+                                       9: [9, 10, 11, 12, 13], 10: [10, 11, 13], 11: [11], 12: [12],
+                                       13: [13]}
 
             self.node_mig_dict_forced = {0: [4, 5, 6, 7, 8, 11, 12, 13], 1: [5, 6], 2: [5, 7], 3: [4, 8], 4: [4], 5: [5],
-                                     6: [5, 6, 7], 7: [7, 5], 8: [8, 4], 9: [11, 12, 13], 10: [11, 13], 11: [11],
-                                     12: [11,12,13], 13: [11,13]}
+                                     6: [6], 7: [7], 8: [8], 9: [11, 12, 13], 10: [11, 13], 11: [11],
+                                     12: [12], 13: [13]}
 
         else:
             self.node_mig_dict_unforced = {0: [0,1,2,3,4,5,9,10,11], 1: [1, 2, 5], 2: [2, 5],
@@ -75,25 +77,27 @@ class ExpectiNPV:
         #TODO There is a problem with how we are saving the forcing and non forcing json data. Check and correct
 
         """
+        # TODO: CHANGE FOR MUNICH AND NEWYORK. THIS IS ONLY FOR OTTOBRUNN
+        # new matrix for ottobrunn
         if not only_ftth:
-            self.node_mig_dict_unforced = {0: [0, 1, 2, 5, 6, 7, 9, 10, 11, 12, 13],
-                                           1: [1, 2, 5, 6, 7], 2: [2, 5, 7],5: [5],
-                                           6: [5, 6, 7], 7: [7, 5], 9: [9, 10, 11, 12, 13],
-                                           10: [10, 11, 13], 11: [11], 12: [11, 12, 13], 13: [11, 13]}
+            self.node_mig_dict_unforced = {0: [0,1,2,3,4,5,9,10,11], 1: [1, 2, 5, 6], 2: [2, 5],
+                                       3: [3, 4], 4: [4],5: [5], 6: [5, 6], 7: [7, 5], 8: [8, 4],
+                                       9: [9, 10, 11, 12], 10: [10, 11], 11: [11], 12: [11, 12],
+                                       13: [11]}
 
-            self.node_mig_dict_forced = {0: [5, 6, 7, 11, 12, 13], 1: [5, 6], 2: [5, 7],
-                                         5: [5], 6: [5, 6, 7], 7: [7, 5], 9: [11, 12, 13], 10: [11, 13],
-                                         11: [11], 12: [11, 12, 13], 13: [11, 13]}
+            self.node_mig_dict_forced = {0: [4, 5, 6, 11, 12], 1: [5, 6], 2: [5], 3: [4], 4: [4], 5: [5],
+                                     6: [5, 6], 7: [5], 8: [8], 9: [11, 12], 10: [11], 11: [11],
+                                     12: [11,12], 13: [11]}
 
         else:
-            self.node_mig_dict_unforced = {0: [0, 1, 2, 5, 9, 10, 11], 1: [1, 2, 5], 2: [2, 5],
-                                           5: [5], 6: [5, 6, 7], 7: [7, 5],
-                                       9: [9, 10, 11], 10: [10, 11], 11: [11], 12: [11, 12, 13],
-                                       13: [11, 13]}
-            self.node_mig_dict_forced = {0: [5, 11], 1: [5], 2: [5], 5: [5],
-                                     6: [5, 6, 7], 7: [7, 5], 9: [11], 10: [11], 11: [11],
-                                     12: [11,12,13], 13: [11,13]}
-        """
+            self.node_mig_dict_unforced = {0: [0,1,2,3,4,5,9,10,11], 1: [1, 2, 5], 2: [2, 5],
+                                       3: [3, 4], 4: [4],5: [5], 6: [5, 6], 7: [5], 8: [4],
+                                       9: [9, 10, 11], 10: [10, 11], 11: [11], 12: [11, 12],
+                                       13: [11]}
+            self.node_mig_dict_forced = {0: [4, 5, 11], 1: [5], 2: [5], 3: [4], 4: [4], 5: [5],
+                                     6: [5, 6], 7: [5], 8: [4], 9: [11], 10: [11], 11: [11],
+                                     12: [11,12], 13: [11]}
+
 
         self.action_list = []
         self.pen_curve = pen_curve
@@ -184,7 +188,7 @@ if __name__ == "__main__":
     result_filename = 'results_expectimax_residential'
     output_parser = OutputJSON(result_filename)
     # final_migration_dict = {}
-    ftth_flag_depth_combo = [(True,25), (True,5),(False,25),(False,5)]
+    ftth_flag_depth_combo = [(True,25), (True,7),(False,25),(False,7)]
     ftth_flag = None
     depth = 0
     print('----------------------------------------------------------------------------------------------------')
@@ -194,7 +198,7 @@ if __name__ == "__main__":
             break
         (ftth_flag,depth) = ftth_flag_depth_combo.pop(0)
         print('----------------------------------------------------------------------------------------------------')
-        print('Year at which all users to be moved to FTTH: {0}'.format(depth))
+        print('Year at which all users to be moved to 100 Mbps: {0}'.format(depth))
         mig_info_pen_dict = {}
         for pen_curve in ['Cons PV','Likely PV', 'Aggr PV']:
 
