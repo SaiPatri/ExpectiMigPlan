@@ -4,9 +4,9 @@ Expectimax search for residenial subscribers.
 2. update migration dictionary according to technology number
 3. Upgrade techindex according to technology name
 4. Provide the years and run the algorithm.
-
+To run this command line arguments needed excel_filename.xlsx
 File: expectimax_residential.py
-Functionality: Runs expectimax
+Functionality: Runs expectimax algorithm
 Author: Sai Kireet Patri
 Copyright: Technische Universitaet Muenchen
 """
@@ -41,12 +41,13 @@ class ExpectiNPV:
         self.capex_values_dict = capex_values.to_dict()
         self.opex_values = opex_values['Approx OPEX per year'].to_dict()
         self.mig_matrix = mig_matrix.to_dict()
-
+        # Add to config file
         self.techindex = {0:u'ADSL',1:u'FTTC_GPON_25',2:u'FTTB_XGPON_50', 3:u'FTTB_UDWDM_50',
                            4:u'FTTH_UDWDM_100', 5:u'FTTH_XGPON_100', 6:u'FTTC_GPON_100',
                           7:u'FTTB_XGPON_100', 8:u'FTTB_UDWDM_100', 9:u'FTTC_Hybridpon_25',
                           10:u'FTTB_Hybridpon_50', 11:u'FTTH_Hybridpon_100', 12:u'FTTC_Hybridpon_100',
                           13:u'FTTB_Hybridpon_100'}
+        # Add to config file
         self.data_rate = {0: 20, 1: 25, 2: 50, 3: 50, 4: 100, 5: 100, 6: 100, 7: 100, 8: 100, 9: 25, 10: 50, 11: 100, 12: 100, 13: 100}
 
         self.START_YEAR = START_YEAR
